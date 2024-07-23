@@ -2,8 +2,8 @@
 import { View, Text, ScrollView, StyleSheet, Image, Platform } from 'react-native';
 import {useState, useEffect} from 'react';
 import * as Progress from 'react-native-progress';
-import { Card } from 'react-native-paper';
 
+import IconButton from '@/components/memoMVP/UI/IconButton';
 
 export default function ReadScreen() {
   
@@ -39,15 +39,23 @@ export default function ReadScreen() {
 
           <Text style={styles.paragraph}>Test</Text>
 
-          
+
         </ScrollView>
-        <View>
+        <View style={styles.bottomContainer} >
+          <IconButton 
+            icon="arrow-back" 
+            size={24} 
+            color={'#694F8E'}/>
           <Progress.Bar
             width={250}
             height={7}
             progress={progress}
             color={'#694F8E'}
           />
+          <IconButton 
+            icon="save"  
+            size={24} 
+            color={'#694F8E'}/>
         </View>
       </View>
     );
@@ -63,6 +71,12 @@ const styles = StyleSheet.create({
   },
 
   paragraph : {
-    fontSize : 50
+    fontSize : 20
   },
+  bottomContainer : {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems : 'center',
+
+  }
 });
