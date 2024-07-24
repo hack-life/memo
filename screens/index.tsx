@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet} from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 
 export default function HomeScreen() {
@@ -13,9 +14,9 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: Colors.white1,
     marginTop: 40,
-    backgroundColor : "#1E1E1E"
+    backgroundColor : Colors.black1,
   }
   
 })

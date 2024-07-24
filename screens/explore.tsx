@@ -22,7 +22,6 @@ export default function ReadScreen() {
   };
 
 
-
     return (
       <View style={styles.container}>
         <ScrollView
@@ -37,14 +36,13 @@ export default function ReadScreen() {
         >
 
 
-          <Text style={styles.paragraph}>TestTETestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
-          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
-          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEststTestTETestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
-          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
-          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstst
-          </Text>
+
+
+          <Text style={styles.paragraph}>Test</Text>
         
     
+
+
 
 
         </ScrollView>
