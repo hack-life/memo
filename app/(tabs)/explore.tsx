@@ -37,7 +37,14 @@ export default function ReadScreen() {
         >
 
 
-          <Text style={styles.paragraph}>Test</Text>
+          <Text style={styles.paragraph}>TestTETestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
+          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
+          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEststTestTETestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
+          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEst
+          TestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstTestTEstst
+          </Text>
+        
+    
 
 
         </ScrollView>
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   paragraph : {
-    fontSize : 20
+    fontSize : 200
   },
   bottomContainer : {
     flexDirection: 'row',
