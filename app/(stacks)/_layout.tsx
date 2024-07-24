@@ -50,24 +50,16 @@ function AuthenticatedStack() {
         contentStyle: { backgroundColor: Colors.white1 },
       }}
     >
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerRight: ({ tintColor }) => (
-            <IconButton
-              icon="exit"
-              color={tintColor}
-              size={24}
-              onPress={authCtx.logout}
-            />
-          ),
-        }}
-      />
+    <Stack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{headerShown: false}}/>
+
 
         <Stack.Screen
               name="Read"
               component={ReadScreen}
+              options={{headerShown: false,}}
             />
       </Stack.Navigator>
         );

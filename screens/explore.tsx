@@ -1,9 +1,11 @@
 
 import { View, Text, ScrollView, StyleSheet, Image, Platform } from 'react-native';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import * as Progress from 'react-native-progress';
 
 import IconButton from '@/components/memoMVP/UI/IconButton';
+import { useNavigation } from '@react-navigation/native';
+
 
 export default function ReadScreen() {
   
@@ -21,8 +23,10 @@ export default function ReadScreen() {
     }
   };
 
+  const navigation = useNavigation();
+  
 
-    return (
+  return (
       <View style={styles.container}>
         <ScrollView
           onScroll={UpdateProgressBar}
@@ -48,9 +52,10 @@ export default function ReadScreen() {
         </ScrollView>
         <View style={styles.bottomContainer} >
           <IconButton 
-            icon="arrow-back" 
+            icon="arrow-left-circle" 
             size={24} 
-            color={'#694F8E'}/>
+            color={'#694F8E'}
+            onPress={() => navigation.goBack()}/>
           <Progress.Bar
             width={250}
             height={7}
@@ -58,7 +63,7 @@ export default function ReadScreen() {
             color={'#694F8E'}
           />
           <IconButton 
-            icon="save"  
+            icon="star"  
             size={24} 
             color={'#694F8E'}/>
         </View>
