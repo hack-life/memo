@@ -15,22 +15,11 @@ export default function HomeScreen() {
 
   return (
     <View style = {styles.wraper}>
-      
+
       <View style= {styles.carouselOuter}>
-        
-        <Pressable onPress={() => navigation.navigate('Read')}>
-          <View style= {styles.carouselInner} >
-
-            <Image source={require('../assets/images/react-logo.png')} />
-            <Text>Title Test</Text>
-            <Carousel />
-
-          </View>
-
-
-        </Pressable>
-
-
+        <View style= {styles.carouselInner} >
+          <Carousel />
+        </View>
       </View>
 
 
@@ -47,20 +36,18 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   wraper : {
     flex:1,
+    backgroundColor: Colors.black1
   },
   
-  container: {
-    flex:1,
-    alignItems: "center",
-    backgroundColor: Colors.white1,
-    marginTop: 40,
-  },
   carouselOuter: {
     flex:1,
     flexDirection: "column",
-    
     alignItems: "center",
-    backgroundColor: Colors.grey2,
+    backgroundColor: Colors.black1,
+  },
+
+  carouselInner: {
+    backgroundColor: Colors.black1,
   },
 
   bottomContainer : {

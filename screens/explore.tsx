@@ -1,10 +1,13 @@
 
-import { View, Text, ScrollView, StyleSheet, Image, Platform } from 'react-native';
-import {useState, useEffect, useContext} from 'react';
-import * as Progress from 'react-native-progress';
+import { View, Text, ScrollView, StyleSheet} from 'react-native';
+import {useState} from 'react';
 
-import IconButton from '@/components/memoMVP/UI/IconButton';
+
+
 import { useNavigation } from '@react-navigation/native';
+import { Colors } from '@/constants/Colors';
+import ProgressBarIcon from '@/components/memoMVP/ProgressBarIcon';
+
 
 
 export default function ReadScreen() {
@@ -28,6 +31,7 @@ export default function ReadScreen() {
 
   return (
       <View style={styles.container}>
+
         <ScrollView
           onScroll={UpdateProgressBar}
           onContentSizeChange={(contentWidth, contentHeight) =>
@@ -47,26 +51,12 @@ export default function ReadScreen() {
     
 
 
-
-
         </ScrollView>
-        <View style={styles.bottomContainer} >
-          <IconButton 
-            icon="arrow-left-circle" 
-            size={24} 
-            color={'#694F8E'}
-            onPress={() => navigation.goBack()}/>
-          <Progress.Bar
-            width={250}
-            height={7}
-            progress={progress}
-            color={'#694F8E'}
-          />
-          <IconButton 
-            icon="star"  
-            size={24} 
-            color={'#694F8E'}/>
-        </View>
+
+        <ProgressBarIcon />
+
+        
+        
       </View>
     );
   }
@@ -75,18 +65,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "white",
-    marginTop: 40,
+    backgroundColor: Colors.black1,
     alignItems: 'center'
   },
 
   paragraph : {
-    fontSize : 200
+    fontSize : 20,
+    color: Colors.white1
   },
-  bottomContainer : {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems : 'center',
 
-  }
 });

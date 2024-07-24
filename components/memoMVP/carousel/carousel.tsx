@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     carouselInner: {
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: Colors.grey1,
+        backgroundColor: Colors.grey2,
         margin: 60,
         padding: 100,
         borderRadius: 30
