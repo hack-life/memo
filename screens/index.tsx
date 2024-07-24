@@ -1,11 +1,24 @@
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet, Pressable, Image} from 'react-native';
 import { Colors } from '@/constants/Colors';
+import Carousel from '@/components/memoMVP/carousel/carousel';
+
 
 
 export default function HomeScreen() {
   return (
-    <View style= {styles.container}>
-      <Text>Test</Text>
+    <View style= {styles.carouselOuter}>
+      
+      <Pressable onPress={() => navigation.navigate('Read')}>
+        <View style= {styles.carouselInner} >
+
+          <Image source={require('../assets/images/react-logo.png')} />
+          <Text>Title Test</Text>
+          <Carousel />
+        </View>
+
+
+      </Pressable>
+
     </View>
   );
 }
@@ -16,7 +29,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Colors.white1,
     marginTop: 40,
-    backgroundColor : Colors.black1,
-  }
+  },
+  carouselOuter: {
+    flex:1,
+    flexDirection: "column",
+    
+    alignItems: "center",
+    backgroundColor: Colors.grey2,
+  },
+
   
 })
