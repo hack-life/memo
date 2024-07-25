@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Button from '../UI/Button';
+import { Colors } from '@/constants/Colors';
+
 
 
 import Input from './Input';
@@ -46,7 +48,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   }
 
   return (
-    <View style={styles.form}>
+    <View >
       <View>
         <Input
           label="Email Address"
@@ -99,4 +101,6 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
   },
+
+
 });

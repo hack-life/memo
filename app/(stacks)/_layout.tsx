@@ -38,11 +38,11 @@ function AuthStack() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.black1 },
         headerTintColor: Colors.grey1,
-        contentStyle: { backgroundColor: Colors.white1 },
+        contentStyle: { backgroundColor: Colors.black1 },
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="Signup" component={SignupScreen} options={{headerShown: false}}/>
     </Stack.Navigator>
   );
 }

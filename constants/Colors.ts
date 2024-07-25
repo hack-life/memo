@@ -4,9 +4,18 @@
  */
 export const Colors = {
   black1: '#1E1E1E',
-  grey1: '#D3D3D3',
-  grey2: "#868686",
+  black2: '#403C3C',
+
+  grey1: '#868686',
+  grey2: "#D3D3D3",
+
   white1: "white",
-  error1: '#fcdcbf',
-  purple1: '#AE0AB2',
+
+  error1: '#DD4949',
+  error2: '#E58888',
+
+  purple1: '#763C77',
+  purple2: '#C82FCC',
+  
+  purple3: '#E08EE2'
 }
