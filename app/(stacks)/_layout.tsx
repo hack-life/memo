@@ -26,7 +26,7 @@ import axios from 'axios';
 // npm install @react-native-async-storage/async-storage
 // npm install @react-navigation/stack 
 // npm install react-native-progress --save
-
+// npm install react-native-deck-swiper --save
 
 
 

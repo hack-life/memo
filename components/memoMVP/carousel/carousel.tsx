@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Summary from './summary'; // Ensure the import path is correct
 import { Colors } from '@/constants/Colors';
 
-function Carousel() {
+function Carousel({ title, summary1, summary2, summary3, image, source, length} ) {
     const navigation = useNavigation();
 
     return (
@@ -12,20 +12,20 @@ function Carousel() {
             <Pressable onPress={() => navigation.navigate('Read')}>
                 <View style={styles.carouselInner}>
                     <Image
-                        source={require('@/assets/images/MyImages/Kamala.jpeg')}
-                        style={styles.image}
-                    />
+                        source={require('@/assets/images/MyImages/Kamala.jpeg')} 
+                        style={styles.image}/>
+                        
                     <View>
-                        <Text style={styles.title}>Carousel Title</Text>
+                        <Text style={styles.title}>{title}</Text>
                     </View>
                     <View style={styles.summaryContainer}>
-                        <Summary icon="close" text="test1" />
-                        <Summary icon="add" text="test2" />
-                        <Summary icon="alert" text="test3" />
+                        <Summary icon="close" text={summary1} />
+                        <Summary icon="add" text={summary2} />
+                        <Summary icon="add" text={summary3} />
                     </View>
                     <View style={styles.bottomCarousel}>
-                        <Text style={styles.leftText}>Source</Text>
-                        <Text style={styles.rightText}>12min</Text>
+                        <Text style={styles.leftText}>{source}</Text>
+                        <Text style={styles.rightText}>{length}</Text>
                     </View>
                 </View>
             </Pressable>

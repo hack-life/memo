@@ -6,6 +6,7 @@ import IconButton from '@/components/memoMVP/UI/IconButton';
 import { AuthContext } from '@/store/auth-context';
 import WisdomBar from '@/components/memoMVP/Gamification/wisdomBar';
 import Streaks from '@/components/memoMVP/Gamification/Streaks';
+import SwipableDeck from '@/components/memoMVP/carousel/SwipableDeck';
 
 export default function HomeScreen() {
     const authCtx = useContext(AuthContext);
@@ -17,7 +18,7 @@ export default function HomeScreen() {
               <Streaks dayCount={5}/>
             </View>
             <View style={styles.carouselOuter}>
-                <Carousel />
+                <SwipableDeck />
             </View>
             <View style={styles.bottomContainer}>
                 <IconButton icon='logout' size={24} color={Colors.purple1} onPress={authCtx.logout} />
@@ -28,11 +29,11 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        flex: 1,
+        flex:1,
         backgroundColor: Colors.black1,
     },
     carouselOuter: {
-        flex: 8,
+        flex:1,
         backgroundColor: Colors.black1,
     },
     bottomContainer: {
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     },
 
     topContainer : {
-      flex:1,
-      flexDirection: "row"
+      flexDirection: "row",
     }
 });
