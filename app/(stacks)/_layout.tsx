@@ -18,7 +18,15 @@ import AppLoading from 'expo-app-loading';
 
 
 import AuthContextProvider, { AuthContext } from '@/store/auth-context';
-import IconButton from '@/components/memoMVP/UI/IconButton';
+import axios from 'axios';
+
+// What you need to install :
+// npm install axios
+// npm install expo-app-loading
+// npm install @react-native-async-storage/async-storage
+// npm install @react-navigation/stack 
+// npm install react-native-progress --save
+
 
 
 

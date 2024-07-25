@@ -6,13 +6,17 @@ import {
 
 } from 'react-native';
 
+import {useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 import IconButton from './UI/IconButton';
-import { ProgressBar } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 
 
 
-function ProgressBarIcon (){
+function ProgressBarIcon ({progress}){   
+
+    const navigation = useNavigation();
 
     return (
         <View style={styles.bottomContainer} >

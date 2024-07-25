@@ -16,6 +16,8 @@ export default function ReadScreen() {
   const [scrollViewContentHeight, setScrollViewContentHeight] = useState(0);
   const [progress, setProgress] = useState(0);
 
+  
+  const navigation = useNavigation();
   const UpdateProgressBar = (value) => {
     const contentOffsetY = value.nativeEvent.contentOffset.y;
     const totalScrollHeight = scrollViewContentHeight - scrollViewHeight;
@@ -25,9 +27,6 @@ export default function ReadScreen() {
       setProgress(0);
     }
   };
-
-  const navigation = useNavigation();
-  
 
   return (
       <View style={styles.container}>
@@ -53,7 +52,7 @@ export default function ReadScreen() {
 
         </ScrollView>
 
-        <ProgressBarIcon />
+        <ProgressBarIcon progress={progress} />
 
         
         
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
   },
 
   paragraph : {
-    fontSize : 20,
+    fontSize : 500,
     color: Colors.white1
   },
 

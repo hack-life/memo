@@ -3,7 +3,7 @@ import { Colors } from '@/constants/Colors';
 import Carousel from '@/components/memoMVP/carousel/carousel';
 import { useNavigation } from '@react-navigation/native';
 import {useContext} from 'react';
-import { Ionicons } from '@expo/vector-icons';
+
 import IconButton from '@/components/memoMVP/UI/IconButton';
 import AuthContextProvider, { AuthContext } from '@/store/auth-context';
 
