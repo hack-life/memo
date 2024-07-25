@@ -1,20 +1,22 @@
-import { Text, View, StyleSheet, Pressable, Image} from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { Colors } from '@/constants/Colors';
 import Carousel from '@/components/memoMVP/carousel/carousel';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import {useContext} from 'react';
 
 import IconButton from '@/components/memoMVP/UI/IconButton';
-import AuthContextProvider, { AuthContext } from '@/store/auth-context';
+import { AuthContext } from '@/store/auth-context';
 
 
 export default function HomeScreen() {
   
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
 
   return (
     <View style = {styles.wraper}>
+
+      <
 
       <View style= {styles.carouselOuter}>
         <View style= {styles.carouselInner} >
