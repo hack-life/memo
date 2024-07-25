@@ -9,7 +9,7 @@ import {
 import {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import IconButton from './UI/IconButton';
+import IconButton from '../UI/IconButton';
 import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 

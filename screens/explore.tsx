@@ -6,7 +6,9 @@ import {useState} from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from '@/constants/Colors';
-import ProgressBarIcon from '@/components/memoMVP/ProgressBarIcon';
+import ProgressBarIcon from '@/components/memoMVP/Read/ProgressBarIcon';
+import Article from '@/components/memoMVP/Read/Article';
+
 
 
 
@@ -42,11 +44,7 @@ export default function ReadScreen() {
           scrollEventThrottle={12}
         >
 
-
-
-
-          <Text style={styles.paragraph}>Test</Text>
-        
+          <Article />
     
 
 
