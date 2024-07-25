@@ -4,12 +4,18 @@ import Carousel from '@/components/memoMVP/carousel/carousel';
 import { useContext } from 'react';
 import IconButton from '@/components/memoMVP/UI/IconButton';
 import { AuthContext } from '@/store/auth-context';
+import WisdomBar from '@/components/memoMVP/Gamification/wisdomBar';
+import Streaks from '@/components/memoMVP/Gamification/Streaks';
 
 export default function HomeScreen() {
     const authCtx = useContext(AuthContext);
 
     return (
         <View style={styles.wrapper}>
+            <View style= {styles.topContainer} >
+              <WisdomBar wisdomScore={0.75} />
+              <Streaks dayCount={5}/>
+            </View>
             <View style={styles.carouselOuter}>
                 <Carousel />
             </View>
@@ -37,4 +43,9 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 5,
     },
+
+    topContainer : {
+      flex:1,
+      flexDirection: "row"
+    }
 });

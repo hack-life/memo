@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import IconButton from './UI/IconButton';
 import * as Progress from 'react-native-progress';
+import { Colors } from '@/constants/Colors';
 
 
 
@@ -23,18 +24,18 @@ function ProgressBarIcon ({progress}){
           <IconButton 
             icon="arrow-left-circle" 
             size={24} 
-            color={'#694F8E'}
+            color={Colors.purple2}
             onPress={() => navigation.goBack()}/>
           <Progress.Bar
             width={250}
             height={7}
             progress={progress}
-            color={'#694F8E'}
+            color={Colors.purple2}
           />
           <IconButton 
             icon="star"  
             size={24} 
-            color={'#694F8E'}/>
+            color={Colors.purple2}/>
         </View>
     
 )
