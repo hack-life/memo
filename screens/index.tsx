@@ -8,7 +8,6 @@ import WisdomBar from '@/components/memoMVP/Gamification/wisdomBar';
 import Streaks from '@/components/memoMVP/Gamification/Streaks';
 import SwipableDeck from '@/components/memoMVP/carousel/SwipableDeck';
 
-
 export default function HomeScreen() {
     const authCtx = useContext(AuthContext);
     const deviceWidth = Dimensions.get('screen').width;
@@ -23,15 +22,13 @@ export default function HomeScreen() {
                     <Streaks dayCount={5} />
                 </View>
 
-
-                <View style={{ height: deviceHeight * 0.74 }}>
+                <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
                     <SwipableDeck />
                 </View>
 
                 <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
                     <IconButton icon='logout' size={24} color={Colors.purple2} onPress={authCtx.logout} />
                 </View>
-                
             </View>
         </SafeAreaView>
     );
@@ -52,13 +49,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         padding: 15,
         margin: 10,
+        zIndex: 1, // Ensure it is below the deck
     },
-
+    deckContainer: {
+        zIndex: 2, // Ensure the deck is above both containers
+    },
     bottomContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: Colors.black1
+        backgroundColor: Colors.black1,
+        zIndex: 1, // Ensure it is below the deck
     },
 });
