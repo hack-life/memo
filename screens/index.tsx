@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         zIndex: 1, // Ensure it is below the deck
     },
     deckContainer: {
-        zIndex: 2, // Ensure the deck is above both containers
+        zIndex: 1, // Ensure the deck is above both containers
     },
     bottomContainer: {
         flexDirection: 'row',
