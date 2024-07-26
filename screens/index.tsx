@@ -10,7 +10,6 @@ import SwipableDeck from '@/components/memoMVP/carousel/SwipableDeck';
 
 export default function HomeScreen() {
     const authCtx = useContext(AuthContext);
-
     const deviceWidth = Dimensions.get('screen').width;
     const deviceHeight = Dimensions.get('screen').height;
 
