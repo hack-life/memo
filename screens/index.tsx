@@ -19,18 +19,20 @@ export default function HomeScreen() {
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.wrapper}>
 
-                <View style={[styles.topContainer, { height: deviceHeight * 0.1 }]}>
+                <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
                     <WisdomBar wisdomScore={0.75} />
                     <Streaks dayCount={5} />
                 </View>
 
-                <View style={{ height: deviceHeight * 0.72 }}>
+
+                <View style={{ height: deviceHeight * 0.74 }}>
                     <SwipableDeck />
                 </View>
 
                 <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
                     <IconButton icon='logout' size={24} color={Colors.purple2} onPress={authCtx.logout} />
                 </View>
+                
             </View>
         </SafeAreaView>
     );
@@ -58,5 +60,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 10,
+        backgroundColor: Colors.black1
     },
 });

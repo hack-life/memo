@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
     carouselOuter: {
         justifyContent: 'center', // Center the carousel vertically
         alignItems: 'center',
-        backgroundColor: Colors.black1
+        backgroundColor: "transparent"
         
     },
     carouselInner: {
-        width: deviceWidth * 0.88, // Adjust width relative to device width
+        width: deviceWidth * 0.88, 
         backgroundColor: Colors.black2,
         borderRadius: 30,
         shadowColor: Colors.grey2,
         shadowOpacity: 0.8,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 5 },
+        shadowRadius: 10, /// to be changed 
     },
     image: {
         width: '100%',

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import Carousel from './carousel';
 import carouselData from './carouselData.json'; // Ensure this path is correct
@@ -29,7 +29,7 @@ const SwipableDeck = () => {
         backgroundColor ={Colors.black1}
         renderCard={renderCard}
         stackSize={3}
-        cardVerticalMargin={130}
+        cardVerticalMargin={80}
         
       />
 
@@ -39,10 +39,8 @@ const SwipableDeck = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor : Colors.white1
 
     
   },
