@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, Dimensions, View } from "react-native";
 import { Colors } from "@/constants/Colors";
 import Carousel from "@/components/memoMVP/carousel/carousel";
 import { useContext, useEffect, useState } from "react";
@@ -14,6 +14,8 @@ interface Articles {
 }
 
 export default function HomeScreen() {
+  const deviceWidth = Dimensions.get('screen').width;
+  const deviceHeight = Dimensions.get('screen').height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
 
@@ -44,44 +46,50 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View style={styles.wrapper}>
+   <SafeAreaView style={styles.safeArea}>
+    <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
       <View style={styles.topContainer}>
         <WisdomBar wisdomScore={0.75} />
         <Streaks dayCount={5} />
       </View>
-      <View style={styles.carouselOuter}>
+      <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
         <SwipableDeck articles={articles} />
       </View>
-      <View style={styles.bottomContainer}>
-        <IconButton
-          icon="logout"
-          size={24}
-          color={Colors.purple1}
-          onPress={authCtx.logout}
-        />
+      <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
+        <IconButton icon='logout' size={24} color={Colors.purple2} onPress={authCtx.logout} />
       </View>
     </View>
+   </SafeAreaView>
+
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Colors.black1,
+  },
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.black1,
-  },
-  carouselOuter: {
-    flex: 1,
-    backgroundColor: Colors.black1,
-  },
-  bottomContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    margin: 5,
-    padding: 5,
   },
   topContainer: {
-    flexDirection: "row",
-  },
+        flexDirection: 'row',
+        backgroundColor: Colors.black1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 10,
+        marginTop: 25,
+        zIndex: 1, // Ensure it is below the deck
+    },
+    deckContainer: {
+        zIndex: 1, // Ensure the deck is above both containers
+    },
+    bottomContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: Colors.black1,
+        zIndex: 1, // Ensure it is below the deck
+    },
 });

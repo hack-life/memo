@@ -26,6 +26,7 @@ import AuthContextProvider, { AuthContext } from '@/store/auth-context';
 // npm install @react-navigation/stack 
 // npm install react-native-progress --save
 // npm install react-native-deck-swiper --save
+// expo install expo-font
 
 
 

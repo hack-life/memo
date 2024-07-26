@@ -67,6 +67,7 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
         </View>
       );
     }
+
     return (
       <Carousel
         title={card.title}
@@ -85,7 +86,8 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
         backgroundColor={Colors.black1}
         renderCard={renderCard}
         stackSize={3}
-        cardVerticalMargin={130}
+        cardVerticalMargin={80}
+        
       />
     </View>
   );
@@ -93,7 +95,10 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+
+    
   },
   placeHolderCard: {
     flex: 1,

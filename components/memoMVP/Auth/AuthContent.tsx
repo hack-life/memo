@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import FlatButton from '../UI/FlatButton';
@@ -32,20 +32,12 @@ function AuthContent({ isLogin, onAuthenticate }) {
 
     const emailIsValid = email.includes('@');
     const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
-    const passwordsAreEqual = password === confirmPassword;
 
-    if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
-    ) {
+    if (!emailIsValid || !passwordIsValid) {
       Alert.alert('Invalid input', 'Please check your entered credentials.');
       setCredentialsInvalid({
         email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
         password: !passwordIsValid,
-        confirmPassword: !passwordIsValid || !passwordsAreEqual,
       });
       return;
     }
@@ -53,24 +45,27 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View style={styles.authContent}>
-      <AuthForm
-        isLogin={isLogin}
-        onSubmit={submitHandler}
-        credentialsInvalid={credentialsInvalid}
-      />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
-        </FlatButton>
+ 
+      <View style={styles.authContent}>
+        <AuthForm
+          isLogin={isLogin}
+          onSubmit={submitHandler}
+          credentialsInvalid={credentialsInvalid}
+        />
+        <View style={styles.buttons}>
+          <FlatButton onPress={switchAuthModeHandler}>
+            {isLogin ? 'Create a new user' : 'Log in instead'}
+          </FlatButton>
+        </View>
       </View>
-    </View>
+ 
   );
 }
 
 export default AuthContent;
 
 const styles = StyleSheet.create({
+
   authContent: {
     marginTop: 64,
     marginHorizontal: 32,
@@ -78,10 +73,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: Colors.black1,
     elevation: 2,
-    shadowColor: 'black',
+    shadowColor: Colors.white1,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
-    shadowRadius: 4,
+    shadowRadius: 10,
   },
   buttons: {
     marginTop: 8,
