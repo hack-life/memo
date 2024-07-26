@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         width: deviceWidth * 0.88, 
         backgroundColor: Colors.black2,
         borderRadius: 30,
+        elevation: 15,
         shadowColor: Colors.grey2,
         shadowOpacity: 0.8,
         shadowOffset: { width: 0, height: 5 },
@@ -85,9 +86,15 @@ const styles = StyleSheet.create({
     leftText: {
         fontSize: 20,
         color: Colors.white1,
+        fontStyle:"italic",
+        padding : 5
     },
     rightText: {
         fontSize: 20,
-        color: Colors.white1,
+        color: Colors.black1,
+        backgroundColor: Colors.grey2,
+        fontStyle:"italic",
+        borderRadius: 10,
+        padding:10
     },
 });

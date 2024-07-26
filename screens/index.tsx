@@ -18,7 +18,7 @@ export default function HomeScreen() {
             <View style={styles.wrapper}>
 
                 <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
-                    <WisdomBar wisdomScore={0.75} />
+                    <WisdomBar wisdomScore={0.75}/>
                     <Streaks dayCount={5} />
                 </View>
 
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.black1,
         alignItems: "center",
         justifyContent: "center",
-        padding: 15,
-        margin: 10,
+        padding: 10,
+        marginTop: 25,
         zIndex: 1, // Ensure it is below the deck
     },
     deckContainer: {
