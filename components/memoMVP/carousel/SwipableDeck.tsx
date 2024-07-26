@@ -7,6 +7,7 @@ import carouselData from './carouselData.json'; // Ensure this path is correct
 import { Colors } from '@/constants/Colors';
 
 const SwipableDeck = () => {
+
   const renderCard = (card) => {
     return (
         <Carousel 
@@ -38,6 +39,7 @@ const SwipableDeck = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
 });
 

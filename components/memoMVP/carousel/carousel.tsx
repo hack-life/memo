@@ -12,7 +12,7 @@ function Carousel({ title, summary1, summary2, summary3, image, source, length} 
             <Pressable onPress={() => navigation.navigate('Read')}>
                 <View style={styles.carouselInner}>
                     <Image
-                        source={require('@/assets/images/MyImages/Kamala.jpeg')} 
+                        source={require('@/assets/images/MyImages/noise.jpg')} 
                         style={styles.image}/>
                         
                     <View>
@@ -37,27 +37,24 @@ export default Carousel;
 
 const styles = StyleSheet.create({
     carouselOuter: {
-        flex: 1,
-        justifyContent: "center",
+        flex:1,
         alignItems: "center",
     },
     carouselInner: {
-        flex: 1,
         flexDirection: 'column',
         backgroundColor: Colors.black2,
-        margin: 20,
         
         borderRadius: 30,
 
-        shadowColor: Colors.white1,
-        shadowOpacity: 4,
+        shadowColor: Colors.grey2,
+        shadowOpacity: 10,
         shadowOffset: {width: 0, height: 2},
-        shadowRadius: 8,
+        shadowRadius: 5,
     },
     image: {
         width: '100%',
         height: '25%',
-        marginBottom: 16,
+        marginBottom: 10,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
     },

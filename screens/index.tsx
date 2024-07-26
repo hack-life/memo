@@ -14,13 +14,16 @@ export default function HomeScreen() {
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.wrapper}>
+
                 <View style={styles.topContainer}>
                     <WisdomBar wisdomScore={0.75} />
                     <Streaks dayCount={5} />
                 </View>
+
                 <View style={styles.carouselOuter}>
                     <SwipableDeck />
                 </View>
+
                 <View style={styles.bottomContainer}>
                     <IconButton icon='logout' size={24} color={Colors.purple1} onPress={authCtx.logout} />
                 </View>
@@ -32,7 +35,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: Colors.error1,
+        backgroundColor: Colors.grey2,
     },
     wrapper: {
         flex: 1,
@@ -48,8 +51,10 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     carouselOuter: {
-        flex: 5,
-        maxHeight: '50%',
+        flex:1,
+        maxHeight: '80%',
+        overflow:"hidden",
+
     },
     bottomContainer: {
         flex: 1,
