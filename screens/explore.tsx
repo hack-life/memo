@@ -1,5 +1,5 @@
 
-import { View, Text, ScrollView, StyleSheet} from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, Dimensions} from 'react-native';
 import {useState} from 'react';
 
 
@@ -30,8 +30,11 @@ export default function ReadScreen() {
     }
   };
 
+
+  const deviceHeight = Dimensions.get('screen').height
+
   return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
 
         <ScrollView
           onScroll={UpdateProgressBar}
@@ -42,6 +45,8 @@ export default function ReadScreen() {
             setScrollViewHeight(event.nativeEvent.layout.height)
           }
           scrollEventThrottle={12}
+
+          style = {[styles.ReadingContainer, { height: deviceHeight * 0.85 }]}
         >
 
           <Article />
@@ -49,26 +54,26 @@ export default function ReadScreen() {
 
 
         </ScrollView>
-
+        
         <ProgressBarIcon progress={progress} />
 
         
         
-      </View>
+      </SafeAreaView>
     );
   }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    
     backgroundColor: Colors.black1,
-    alignItems: 'center'
+    
   },
 
-  paragraph : {
-    fontSize : 500,
-    color: Colors.white1
-  },
+  ReadingContainer: {
+    backgroundColor: Colors.black1
+  }
+
+
 
 });
