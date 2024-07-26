@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/expoImages/icon.png",
     "scheme": "myapp",
+    
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/expoImages/splash.png",
