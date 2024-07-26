@@ -33,9 +33,8 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
       }
       try {
         console.log("Content to summarize:", articles.map((article) => article.content));
-        //const summary1 = await llm(articles[0].content);
-        //setSummaries(summaries);
-        console.log("Summaries updated:", summaries.length);
+        const summary1 = await llm(articles[0].content);
+        // setSummaries(summaries);
         console.log("Summaries:", summaries);
       } catch (error) {
         console.error("Error generating summaries:", error);

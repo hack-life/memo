@@ -1,11 +1,11 @@
 import RNFS from "react-native-fs";
+import * as FileSystem from "expo-file-system";
 
 const OPENAI_API_KEY =
   "sk-proj-Y7g7DTlYRA2A9Sp34AkaT3BlbkFJR8Kqz3lJFM4urCpwGS7C";
 
-async function generateAndSaveSummary(inputText: string) {
+const generateAndSaveSummary = async (inputText: string) => {
   try {
-    console.log("Generating summary for input text:", inputText);
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -21,7 +21,7 @@ async function generateAndSaveSummary(inputText: string) {
           },
           {
             role: "user",
-            content: `Summarize the following text with three bullet points of one short sentence each using the following template :
+            content: `Summarize the following articles with three bullet points of one short sentence each using the following template :
               [
                 {
                   "title": "Article Title 1",
@@ -56,24 +56,20 @@ async function generateAndSaveSummary(inputText: string) {
     });
 
     const jsonResponse = await response.json();
-    console.log("Response:", jsonResponse);
+    console.log("Summary response:", jsonResponse);
 
     if (jsonResponse.choices && jsonResponse.choices.length > 0) {
-      const content = jsonResponse.choices[0].message.content;
-
-      // Parse the content as JSON
-      const parsedContent = JSON.parse(content);
-
-      // Convert parsed content back to a formatted JSON string
-      const jsonString = JSON.stringify(parsedContent, null, 2);
-
       // Get the path for the JSON file
-      const path = RNFS.DocumentDirectoryPath + "/carouselData.json";
+      const fileUri = FileSystem.documentDirectory + "carouselData.json";
 
       // Write the file
-      await RNFS.writeFile(path, jsonString, "utf8");
-      console.log("File written successfully to:", path);
-      return path; // Return the path where the file was saved
+      await FileSystem.writeAsStringAsync(
+        fileUri,
+        JSON.stringify(jsonResponse),
+        { encoding: FileSystem.EncodingType.UTF8 }
+      );
+      console.log("Summary saved to:", fileUri);
+      return fileUri;
     } else {
       throw new Error("No summary generated.");
     }
@@ -81,6 +77,6 @@ async function generateAndSaveSummary(inputText: string) {
     console.error("Error:", error);
     throw error; // Re-throw the error to be handled by the caller
   }
-}
+};
 
 export default generateAndSaveSummary;
