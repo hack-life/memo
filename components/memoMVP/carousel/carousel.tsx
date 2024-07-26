@@ -4,15 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Summary from "./summary"; // Ensure the import path is correct
 import { Colors } from "@/constants/Colors";
 
-function Carousel({
-  title,
-  summary1,
-  summary2,
-  summary3,
-  image,
-  source,
-  length,
-}) {
+function Carousel({ title, summary1, summary2, summary3, length }) {
   const navigation = useNavigation();
 
   return (
@@ -33,7 +25,6 @@ function Carousel({
             <Summary text={summary3} />
           </View>
           <View style={styles.bottomCarousel}>
-            <Text style={styles.leftText}>{source}</Text>
             <Text style={styles.rightText}>{length}</Text>
           </View>
         </View>

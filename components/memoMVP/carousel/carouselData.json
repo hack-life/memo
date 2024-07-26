@@ -4,8 +4,6 @@
       "summary1": "Summary sentence 1 for article 1",
       "summary2": "Summary sentence 2 for article 1",
       "summary3": "Summary sentence 3 for article 1",
-      "image": {},
-      "source": "Source 1",
       "length": "10min"
     },
     {
@@ -13,8 +11,6 @@
       "summary1": "Summary sentence 1 for article 2",
       "summary2": "Summary sentence 2 for article 2",
       "summary3": "Summary sentence 3 for article 2",
-      "image": {},
-      "source": "Source 2",
       "length": "15min"
     },
     {
@@ -22,8 +18,6 @@
       "summary1": "Summary sentence 1 for article 3",
       "summary2": "Summary sentence 2 for article 3",
       "summary3": "Summary sentence 3 for article 3",
-      "image": {},
-      "source": "Source 3",
       "length": "5min"
     }
   ]
