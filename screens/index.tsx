@@ -15,9 +15,6 @@ export default function HomeScreen() {
 
   return (
     <View style = {styles.wraper}>
-
-      <
-
       <View style= {styles.carouselOuter}>
         <View style= {styles.carouselInner} >
           <Carousel />
