@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Text, View, StyleSheet, Pressable, Image, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -7,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 const deviceWidth = Dimensions.get('screen').width;
 const deviceHeight = Dimensions.get('screen').height;
 
-function Carousel({ title, summary1, summary2, summary3, image, source, length }) {
+function Carousel({ title, summary1, summary2, summary3, length }) {
     const navigation = useNavigation();
 
     return (
@@ -22,9 +23,9 @@ function Carousel({ title, summary1, summary2, summary3, image, source, length }
                         <Text style={styles.title}>{title}</Text>
                     </View>
                     <View style={styles.summaryContainer}>
-                        <Summary icon="close" text={summary1} />
-                        <Summary icon="add" text={summary2} />
-                        <Summary icon="add" text={summary3} />
+                        <Summary  text={summary1} />
+                        <Summary  text={summary2} />
+                        <Summary  text={summary3} />
                     </View>
                     <View style={styles.bottomCarousel}>
                         <Text style={styles.leftText}>{source}</Text>
@@ -33,12 +34,15 @@ function Carousel({ title, summary1, summary2, summary3, image, source, length }
                 </View>
             </Pressable>
         </View>
-    );
+      </Pressable>
+    </View>
+  );
 }
 
 export default Carousel;
 
 const styles = StyleSheet.create({
+
     carouselOuter: {
         justifyContent: 'center', // Center the carousel vertically
         alignItems: 'center',
