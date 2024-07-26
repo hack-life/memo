@@ -1,61 +1,64 @@
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import Carousel from '@/components/memoMVP/carousel/carousel';
-// import { useNavigation } from '@react-navigation/native';
-import {useContext} from 'react';
 
+import { useContext } from 'react';
 import IconButton from '@/components/memoMVP/UI/IconButton';
 import { AuthContext } from '@/store/auth-context';
+import WisdomBar from '@/components/memoMVP/Gamification/wisdomBar';
+import Streaks from '@/components/memoMVP/Gamification/Streaks';
+import SwipableDeck from '@/components/memoMVP/carousel/SwipableDeck';
 
 
 export default function HomeScreen() {
-  
-  // const navigation = useNavigation();
-  const authCtx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext);
+    const deviceWidth = Dimensions.get('screen').width;
+    const deviceHeight = Dimensions.get('screen').height;
 
-  return (
-    <View style = {styles.wraper}>
-      <View style= {styles.carouselOuter}>
-        <View style= {styles.carouselInner} >
-          <Carousel />
-        </View>
-      </View>
+    return (
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.wrapper}>
 
-
-
-      <View style={styles.bottomContainer}>
-        <IconButton icon='logout' size={24} color={Colors.purple1} onPress={authCtx.logout}/>
-      </View>
+                <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
+                    <WisdomBar wisdomScore={0.75} />
+                    <Streaks dayCount={5} />
+                </View>
 
 
-  </View>  
-  );
+                <View style={{ height: deviceHeight * 0.74 }}>
+                    <SwipableDeck />
+                </View>
+
+                <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
+                    <IconButton icon='logout' size={24} color={Colors.purple2} onPress={authCtx.logout} />
+                </View>
+                
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-  wraper : {
-    flex:1,
-    backgroundColor: Colors.black1
-  },
-  
-  carouselOuter: {
-    flex:1,
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: Colors.black1,
-  },
+    safeArea: {
+        flex: 1,
+        backgroundColor: Colors.black1,
+    },
+    wrapper: {
+        flex: 1,
+    },
+    topContainer: {
+        flexDirection: 'row',
+        backgroundColor: Colors.black1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 15,
+        margin: 10,
+    },
 
-  carouselInner: {
-    backgroundColor: Colors.black1,
-  },
-
-  bottomContainer : {
-    flexDirection: 'row',
-    justifyContent: "flex-start",
-    alignItems : 'center',
-    margin:5,
-    padding:5,
-
-  },
-  
-})
+    bottomContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: Colors.black1
+    },
+});

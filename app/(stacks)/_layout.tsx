@@ -18,7 +18,6 @@ import AppLoading from 'expo-app-loading';
 
 
 import AuthContextProvider, { AuthContext } from '@/store/auth-context';
-import axios from 'axios';
 
 // What you need to install :
 // npm install axios
@@ -26,7 +25,8 @@ import axios from 'axios';
 // npm install @react-native-async-storage/async-storage
 // npm install @react-navigation/stack 
 // npm install react-native-progress --save
-
+// npm install react-native-deck-swiper --save
+// expo install expo-font
 
 
 
@@ -35,11 +35,7 @@ const Stack = createNativeStackNavigator();
 function AuthStack() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: Colors.black1 },
-        headerTintColor: Colors.grey1,
-        contentStyle: { backgroundColor: Colors.white1 },
-      }}
+      screenOptions={{headerShown: false,}}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
@@ -52,22 +48,18 @@ function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: Colors.black1 },
-        headerTintColor: 'white',
-        contentStyle: { backgroundColor: Colors.white1 },
-      }}
+    screenOptions={{headerShown: false,}}
     >
     <Stack.Screen
       name="Home"
       component={HomeScreen}
-      options={{headerShown: false}}/>
+      />
 
 
         <Stack.Screen
               name="Read"
               component={ReadScreen}
-              options={{headerShown: false,}}
+             
             />
       </Stack.Navigator>
         );
