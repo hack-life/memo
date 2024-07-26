@@ -53,10 +53,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <ImageBackground
-      source={require('@/assets/images/MyImages/noise.jpg')}
-      style={styles.background}
-    >
+ 
       <View style={styles.authContent}>
         <AuthForm
           isLogin={isLogin}
@@ -69,18 +66,14 @@ function AuthContent({ isLogin, onAuthenticate }) {
           </FlatButton>
         </View>
       </View>
-    </ImageBackground>
+ 
   );
 }
 
 export default AuthContent;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
+
   authContent: {
     marginTop: 64,
     marginHorizontal: 32,
