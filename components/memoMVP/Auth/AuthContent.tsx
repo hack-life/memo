@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import FlatButton from '../UI/FlatButton';
@@ -53,24 +53,34 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View style={styles.authContent}>
-      <AuthForm
-        isLogin={isLogin}
-        onSubmit={submitHandler}
-        credentialsInvalid={credentialsInvalid}
-      />
-      <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
-        </FlatButton>
+    <ImageBackground
+      source={require('@/assets/images/MyImages/noise.jpg')}
+      style={styles.background}
+    >
+      <View style={styles.authContent}>
+        <AuthForm
+          isLogin={isLogin}
+          onSubmit={submitHandler}
+          credentialsInvalid={credentialsInvalid}
+        />
+        <View style={styles.buttons}>
+          <FlatButton onPress={switchAuthModeHandler}>
+            {isLogin ? 'Create a new user' : 'Log in instead'}
+          </FlatButton>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 export default AuthContent;
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
   authContent: {
     marginTop: 64,
     marginHorizontal: 32,
@@ -78,10 +88,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: Colors.black1,
     elevation: 2,
-    shadowColor: 'black',
+    shadowColor: Colors.white1,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
-    shadowRadius: 4,
+    shadowRadius: 10,
   },
   buttons: {
     marginTop: 8,

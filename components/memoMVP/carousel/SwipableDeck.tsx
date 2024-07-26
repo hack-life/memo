@@ -26,10 +26,11 @@ const SwipableDeck = () => {
     <View style={styles.container}>
       <Swiper
         cards={carouselData}
-        backgroundColor = {Colors.black1}
+        backgroundColor ={Colors.black1}
         renderCard={renderCard}
         stackSize={3}
         cardVerticalMargin={130}
+        
       />
 
     </View>
@@ -39,6 +40,10 @@ const SwipableDeck = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor : Colors.white1
+
     
   },
 });
