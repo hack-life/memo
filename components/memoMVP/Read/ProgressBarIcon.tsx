@@ -2,7 +2,9 @@
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    Dimensions,
+
 
 } from 'react-native';
 
@@ -18,24 +20,22 @@ import { Colors } from '@/constants/Colors';
 function ProgressBarIcon ({progress}){   
 
     const navigation = useNavigation();
+    const deviceHeight = Dimensions.get('screen').height
 
     return (
-        <View style={styles.bottomContainer} >
+        <View style={[styles.bottomContainer, { height: deviceHeight * 0.08 }]} >
           <IconButton 
             icon="arrow-left-circle" 
-            size={24} 
+            size={30} 
             color={Colors.purple2}
             onPress={() => navigation.goBack()}/>
           <Progress.Bar
-            width={250}
-            height={7}
+            width={270}
+            height={9}
             progress={progress}
             color={Colors.purple2}
           />
-          <IconButton 
-            icon="star"  
-            size={24} 
-            color={Colors.purple2}/>
+          
         </View>
     
 )
@@ -48,8 +48,13 @@ const styles = StyleSheet.create({
 
     bottomContainer : {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: "space-between",
         alignItems : 'center',
+        backgroundColor: Colors.black1,
+        marginHorizontal : 15,
+        marginBottom: 30,
+        
+
     
       }
 });

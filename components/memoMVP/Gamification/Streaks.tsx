@@ -19,9 +19,7 @@ function Streaks ({dayCount}){
     return (
         <View style= {styles.Streaks}>
             <Text style = {styles.DayCount}>{dayCount}</Text>
-            
-            <MaterialCommunityIcons name="lightning-bolt-outline" size={40} color={Colors.purple2}  />
-
+            <MaterialCommunityIcons name="lightning-bolt-outline" size={50} color={Colors.purple2} />
         </View>
     
 )
@@ -35,13 +33,13 @@ const styles = StyleSheet.create({
     Streaks: {
         flex:1,
         flexDirection: 'row',
-        justifyContent: "center",
+        justifyContent: "flex-end",
         alignItems: "center"
 
     },
 
     DayCount: {
-        fontSize: 30,
+        fontSize: 40,
         color: Colors.white1,
         fontFamily: 'Serif-Italic'
     }
