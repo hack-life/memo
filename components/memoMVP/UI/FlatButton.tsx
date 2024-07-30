@@ -19,14 +19,23 @@ export default FlatButton;
 
 const styles = StyleSheet.create({
   button: {
+    borderRadius: 6,
     paddingVertical: 6,
     paddingHorizontal: 12,
+    backgroundColor: Colors.black1,
+    elevation: 2,
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   pressed: {
     opacity: 0.7,
   },
   buttonText: {
     textAlign: 'center',
-    color: Colors.white1,
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold'
   },
 });

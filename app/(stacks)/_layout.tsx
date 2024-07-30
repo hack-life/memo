@@ -12,6 +12,7 @@ import HomeScreen from '@/screens/index';
 import ReadScreen from '@/screens/Read';
 import MyStreaks from '@/screens/StreaksScreens/MyStreaks';
 import Leaderboard from '@/screens/StreaksScreens/Leaderboard';
+import ProfileScreen from '@/screens/ProfileScreen';
 
 import { useContext, useEffect, useState } from 'react';
 
@@ -89,6 +90,10 @@ function AuthenticatedStack() {
       <Stack.Screen 
         name="StreaksScreens"
         component= {StreaksScreens} />
+
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen} />
 
       </Stack.Navigator>
 

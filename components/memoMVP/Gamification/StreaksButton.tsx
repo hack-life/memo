@@ -10,7 +10,7 @@ import { Colors } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
 import { useNavigation } from 'expo-router';
 
-function Streaks ({dayCount}){
+function StreaksButton ({dayCount}){
 
     const navigation = useNavigation();
 
@@ -29,7 +29,7 @@ function Streaks ({dayCount}){
 }
    
 
-export default Streaks;
+export default StreaksButton;
 
 const styles = StyleSheet.create({
 

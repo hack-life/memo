@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert, StyleSheet, View, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import FlatButton from '../UI/FlatButton';
+import FlatButton from '../UI/FlatButton.tsx';
 import AuthForm from './AuthForm';
 import { Colors } from '@/constants/Colors';
 

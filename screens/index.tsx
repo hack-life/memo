@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, Dimensions, View, ScrollView } from "react-na
 import { Colors } from "@/constants/Colors";
 import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
-import Streaks from "@/components/memoMVP/Gamification/Streaks";
+import TopLine from "@/components/memoMVP/Gamification/TopLine";
 import Carousel from "@/components/memoMVP/Carousel/carousel";
 import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
@@ -48,10 +48,13 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.wrapper}>
+
         <View style={styles.header}>
+          <TopLine />
           <WisdomBar wisdomScore={0.60} />
-          <Streaks dayCount={5} />
+    
         </View>
+        
 
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.deckContainer}>
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.grey1,
   },
   header: {
-    flexDirection: "row",
+    flexDirection: "column",
     backgroundColor: Colors.error2,
     alignItems: "center",
     marginHorizontal: 5,
