@@ -1,30 +1,33 @@
-import { SafeAreaView, StyleSheet, Dimensions, View, Text, ScrollView, Modal } from "react-native";
+import { SafeAreaView, StyleSheet, Dimensions, View, ScrollView } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useContext, useEffect, useState } from "react";
-import IconButton from "@/components/memoMVP/UI/IconButton";
+
 import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import Carousel from "@/components/memoMVP/Carousel/carousel";
-import { transparent } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+
+import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
+import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
 
 interface Articles {
   title: string;
   content: string; // Changed from string[] to string
 }
 
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
+
 export default function HomeScreen() {
-  const deviceWidth = Dimensions.get("screen").width;
-  const deviceHeight = Dimensions.get("screen").height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
-
 
   useEffect(() => {
     const loadArticles = async () => {
       try {
         // Directly require the JSON file
         const articlesJson = require("../assets/articles.json");
+
         // If articlesJson is already an array, use it directly
         const articlesArray = Array.isArray(articlesJson)
           ? articlesJson
@@ -46,59 +49,95 @@ export default function HomeScreen() {
     loadArticles();
   }, []);
 
+    useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        // Directly require the JSON file
+        const articlesJson = require("../assets/articles.json");
+
+        // If articlesJson is already an array, use it directly
+        const articlesArray = Array.isArray(articlesJson)
+          ? articlesJson
+          : articlesJson.articles;
+
+        const parsedArticles: Articles[] = articlesArray.map(
+          (article: any) => ({
+            title: article.title,
+            content: Array.isArray(article.content)
+              ? article.content.join(" ") // Joining array into a single string
+              : article.content, // Using directly if it's already a string
+          })
+        );
+        setArticles(parsedArticles);
+      } catch (error) {
+        console.error("Failed to load articles:", error);
+      }
+    };
+    loadArticles();
+  }, []);
+
+  const articlesAllJson = require("../assets/articlesAll.json");
+
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      
-  
-      <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
-        <WisdomBar wisdomScore={0.75} />
-        <Streaks dayCount={5} />
-      </View>
+      <View style={styles.wrapper}>
 
-      <ScrollView>
-        <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
-          <Carousel articles={articles} />
+        <View style={styles.header}>
+          <WisdomBar wisdomScore={0.60} />
+          <Streaks dayCount={5} />
         </View>
-      </ScrollView>
-      
-      
-    
+
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <View style={styles.deckContainer}>
+            <Carousel articles={articles} />
+          </View>
+
+          <View>
+
+            <ReadMore articles={articlesAllJson}/>
+
+          </View>
+
+        </ScrollView>
+
+        <View style={styles.fixedButton}>
+          <IconButtonAnt name="pluscircle" size={48} color={Colors.purple1} />
+        </View>
+
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  logoutText: {
-    color: Colors.purple2,
-    fontSize: 16,
-    // make bold
-    fontWeight: "bold",
-  },
+
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.black1,
+    backgroundColor: Colors.error1,
   },
   wrapper: {
-    flex: 1,
+    flex:1,
+    backgroundColor: Colors.error2,
   },
-  topContainer: {
+  header: {
     flexDirection: "row",
     backgroundColor: Colors.black1,
     alignItems: "center",
-    marginLeft: 10,
+    marginHorizontal: 5,
     justifyContent: "center",
     padding: 10,
-    zIndex: 1, // Ensure it is below the deck
+    height: deviceHeight * 0.08,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
   deckContainer: {
-    zIndex: 1, // Ensure the deck is above both containers
+    height: deviceHeight * 0.74,
   },
-  bottomContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: 10,
-    backgroundColor: "transparent",
-    zIndex: 1, // Ensure it is below the deck
+  fixedButton: {
+    position: 'absolute',
+    bottom: 40,
+    right: 20,
   },
 });

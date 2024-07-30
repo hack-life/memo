@@ -81,6 +81,9 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
           renderCard={renderCard}
           stackSize={3}
           cardVerticalMargin={50}
+          verticalSwipe={false}
+         
+
         />
       )}
     </View>
