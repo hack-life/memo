@@ -5,11 +5,14 @@ import {
 
 } from 'react-native';
 
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import IconButtonMat from '../UI/IconButtonMat';
 import { Colors } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
+import { useNavigation } from 'expo-router';
 
 function Streaks ({dayCount}){
+
+    const navigation = useNavigation();
 
     const [fontsLoaded] =useFonts({
         'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
@@ -19,7 +22,7 @@ function Streaks ({dayCount}){
     return (
         <View style= {styles.Streaks}>
             <Text style = {styles.DayCount}>{dayCount}</Text>
-            <MaterialCommunityIcons name="lightning-bolt-outline" size={50} color={Colors.purple2} />
+            <IconButtonMat icon="local-fire-department" size={40} color={Colors.purple1} onPress={() => navigation.navigate("StreaksScreens")}/>
         </View>
     
 )
