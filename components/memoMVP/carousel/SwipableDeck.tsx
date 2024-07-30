@@ -33,11 +33,9 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
           articles.map(async (article) => {
             await llm(article.content);
             const fileUri =
-              "/Users/darius/Code/react-native/memo/components/memoMVP/carousel/openairesponse.json";
-            const response = await FileSystem.readAsStringAsync(fileUri, {
-              encoding: FileSystem.EncodingType.UTF8,
-            });
-            const summary = JSON.parse(response);
+              FileSystem.documentDirectory + "openairesponse.json";
+            const fileContent = await FileSystem.readAsStringAsync(fileUri);
+            const summary = JSON.parse(fileContent);
             return {
               title: article.title,
               summary1: summary.summary1,

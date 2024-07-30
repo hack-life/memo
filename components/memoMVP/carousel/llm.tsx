@@ -40,8 +40,7 @@ const generateAndSaveSummary = async (inputText: string) => {
 
     if (jsonResponse.choices && jsonResponse.choices.length > 0) {
       // Get the path for the JSON file
-      const fileUri =
-        "/Users/darius/Code/react-native/memo/components/memoMVP/carousel/openairesponse.json";
+      const fileUri = FileSystem.documentDirectory + "openairesponse.json";
       // Write the file
       await FileSystem.writeAsStringAsync(
         fileUri,
