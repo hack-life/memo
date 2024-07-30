@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Dimensions, View, Text } from "react-native";
+import { SafeAreaView, StyleSheet, Dimensions, View, Text, ScrollView, Modal } from "react-native";
 import { Colors } from "@/constants/Colors";
 import Carousel from "@/components/memoMVP/carousel/carousel";
 import { useContext, useEffect, useState } from "react";
@@ -19,6 +19,7 @@ export default function HomeScreen() {
   const deviceHeight = Dimensions.get("screen").height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+
 
   useEffect(() => {
     const loadArticles = async () => {
@@ -48,26 +49,21 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.wrapper}>
-        <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
-          <WisdomBar wisdomScore={0.75} />
-          <Streaks dayCount={5} />
-        </View>
+      
+  
+      <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
+        <WisdomBar wisdomScore={0.75} />
+        <Streaks dayCount={5} />
+      </View>
 
+      <ScrollView>
         <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
           <SwipableDeck articles={articles} />
         </View>
-
-        <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
-          <IconButton
-            icon="logout"
-            size={24}
-            color={Colors.purple2}
-            onPress={authCtx.logout}
-          />
-          <Text style={styles.logoutText}>Logout</Text>
-        </View>
-      </View>
+      </ScrollView>
+      
+      <
+    
     </SafeAreaView>
   );
 }

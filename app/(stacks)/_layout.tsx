@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 import SignupScreen from '@/screens/SignupScreen';
 import LoginScreen from '@/screens/LoginScreen';
 import HomeScreen from '@/screens/index';
-import ReadScreen from '@/screens/explore';
+import ReadScreen from '@/screens/Read';
 
 import { useContext, useEffect, useState } from 'react';
 
