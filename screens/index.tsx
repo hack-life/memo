@@ -1,18 +1,17 @@
+import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Dimensions, View, ScrollView } from "react-native";
 import { Colors } from "@/constants/Colors";
-import { useContext, useEffect, useState } from "react";
-
 import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import Carousel from "@/components/memoMVP/Carousel/carousel";
-
 import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
+import AddURL from "@/components/memoMVP/AddURL";
 
 interface Articles {
   title: string;
-  content: string; // Changed from string[] to string
+  content: string;
 }
 
 const deviceWidth = Dimensions.get("screen").width;
@@ -21,53 +20,17 @@ const deviceHeight = Dimensions.get("screen").height;
 export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadArticles = async () => {
       try {
-        // Directly require the JSON file
         const articlesJson = require("../assets/articles.json");
-
-        // If articlesJson is already an array, use it directly
-        const articlesArray = Array.isArray(articlesJson)
-          ? articlesJson
-          : articlesJson.articles;
-
-        const parsedArticles: Articles[] = articlesArray.map(
-          (article: any) => ({
-            title: article.title,
-            content: Array.isArray(article.content)
-              ? article.content.join(" ") // Joining array into a single string
-              : article.content, // Using directly if it's already a string
-          })
-        );
-        setArticles(parsedArticles);
-      } catch (error) {
-        console.error("Failed to load articles:", error);
-      }
-    };
-    loadArticles();
-  }, []);
-
-    useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        // Directly require the JSON file
-        const articlesJson = require("../assets/articles.json");
-
-        // If articlesJson is already an array, use it directly
-        const articlesArray = Array.isArray(articlesJson)
-          ? articlesJson
-          : articlesJson.articles;
-
-        const parsedArticles: Articles[] = articlesArray.map(
-          (article: any) => ({
-            title: article.title,
-            content: Array.isArray(article.content)
-              ? article.content.join(" ") // Joining array into a single string
-              : article.content, // Using directly if it's already a string
-          })
-        );
+        const articlesArray = Array.isArray(articlesJson) ? articlesJson : articlesJson.articles;
+        const parsedArticles: Articles[] = articlesArray.map((article: any) => ({
+          title: article.title,
+          content: Array.isArray(article.content) ? article.content.join(" ") : article.content,
+        }));
         setArticles(parsedArticles);
       } catch (error) {
         console.error("Failed to load articles:", error);
@@ -78,11 +41,13 @@ export default function HomeScreen() {
 
   const articlesAllJson = require("../assets/articlesAll.json");
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.wrapper}>
-
         <View style={styles.header}>
           <WisdomBar wisdomScore={0.60} />
           <Streaks dayCount={5} />
@@ -92,18 +57,18 @@ export default function HomeScreen() {
           <View style={styles.deckContainer}>
             <Carousel articles={articles} />
           </View>
-
           <View>
-
-            <ReadMore articles={articlesAllJson}/>
-
+            <ReadMore articles={articlesAllJson} />
           </View>
-
         </ScrollView>
 
-        <View style={styles.fixedButton}>
-          <IconButtonAnt name="pluscircle" size={48} color={Colors.purple1} />
-        </View>
+        {!isModalVisible && (
+          <View style={styles.fixedButton}>
+            <IconButtonAnt icon="pluscircle" size={100} color={Colors.purple1} onPress={toggleModal} />
+          </View>
+        )}
+
+        <AddURL isModalVisible={isModalVisible} toggleModal={toggleModal} />
 
       </View>
     </SafeAreaView>
@@ -111,13 +76,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-
   safeArea: {
     flex: 1,
     backgroundColor: Colors.error1,
   },
   wrapper: {
-    flex:1,
+    flex: 1,
     backgroundColor: Colors.error2,
   },
   header: {
@@ -136,8 +100,9 @@ const styles = StyleSheet.create({
     height: deviceHeight * 0.74,
   },
   fixedButton: {
-    position: 'absolute',
-    bottom: 40,
+    position: "absolute",
+    bottom: 20,
     right: 20,
+    zIndex: 1,
   },
 });
