@@ -1,4 +1,11 @@
-import { SafeAreaView, StyleSheet, Dimensions, View, Text } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  View,
+  Text,
+  Button,
+} from "react-native";
 import { Colors } from "@/constants/Colors";
 import Carousel from "@/components/memoMVP/carousel/carousel";
 import { useContext, useEffect, useState } from "react";
@@ -7,7 +14,8 @@ import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
-import { transparent } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 interface Articles {
   title: string;
@@ -19,6 +27,73 @@ export default function HomeScreen() {
   const deviceHeight = Dimensions.get("screen").height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk",
+    authDomain: "memo-ae862.firebaseapp.com",
+    projectId: "memo-ae862",
+    storageBucket: "memo-ae862.appspot.com",
+    messagingSenderId: "371867286010",
+    appId: "1:371867286010:web:0902c806ddae9c12864c43",
+    measurementId: "G-831ENZE591",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const addArticle = async (article: {
+    title: string;
+    author: string;
+    content: string;
+  }) => {
+    try {
+      const docRef = await addDoc(collection(db, "articles"), article);
+      console.log("Document written with ID: ", docRef.id);
+      return docRef.id;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      throw e;
+    }
+  };
+
+  const getArticles = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "articles"));
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+    } catch (e) {
+      console.error("Error getting documents: ", e);
+      throw e;
+    }
+  };
+
+  useEffect(() => {
+    loadArticles();
+  }, []);
+
+  const loadArticles = async () => {
+    try {
+      const fetchedArticles = await getArticles();
+      setArticles(fetchedArticles);
+    } catch (error) {
+      console.error("Failed to load articles:", error);
+    }
+  };
+
+  const handleAddArticle = async () => {
+    const newArticle = {
+      title: "New Article",
+      author: "Test Author",
+      content: "This is a test article content.",
+    };
+    try {
+      await addArticle(newArticle);
+      loadArticles(); // Reload articles after adding
+    } catch (error) {
+      console.error("Failed to add article:", error);
+    }
+  };
 
   useEffect(() => {
     const loadArticles = async () => {
@@ -54,11 +129,11 @@ export default function HomeScreen() {
           <Streaks dayCount={5} />
         </View>
 
-        <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
+        <View style={[styles.deckContainer, { height: deviceHeight * 0.64 }]}>
           <SwipableDeck articles={articles} />
         </View>
 
-        <View style={[styles.bottomContainer, { height: deviceHeight * 0.1 }]}>
+        <View style={[styles.bottomContainer, { height: deviceHeight * 0.2 }]}>
           <IconButton
             icon="logout"
             size={24}
