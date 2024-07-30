@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Carousel from "./carousel";
 import { Colors } from "@/constants/Colors";
-import carouselData from "@/components/memoMVP/carousel/carouselData.json";
-import llm from "@/components/memoMVP/carousel/llm"; // Assuming this is your summarization function
+import llm from "@/components/memoMVP/carousel/llm"; // Your summarization function
 import * as FileSystem from "expo-file-system";
+
 interface Articles {
   title: string;
   content: string;
@@ -32,7 +32,6 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
         const summaries = await Promise.all(
           articles.map(async (article) => {
             await llm(article.content);
-            // fetch the summary from the file
             const fileUri =
               "/Users/darius/Code/react-native/memo/components/memoMVP/carousel/openairesponse.json";
             const response = await FileSystem.readAsStringAsync(fileUri, {
@@ -59,15 +58,6 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
   }, [articles]);
 
   const renderCard = (card: Summary) => {
-    if (!card) {
-      // Optionally render a placeholder 
-      return (
-        <View style={styles.placeHolderCard}>
-          <Text>Loading...</Text>
-        </View>
-      );
-    }
-
     return (
       <Carousel
         title={card.title}
@@ -81,24 +71,32 @@ const SwipableDeck = ({ articles }: { articles: Articles[] }) => {
 
   return (
     <View style={styles.container}>
-      <Swiper
-        cards={summaries}
-        backgroundColor={Colors.black1}
-        renderCard={renderCard}
-        stackSize={3}
-        cardVerticalMargin={80}
-        
-      />
+      {summaries.length === 0 ? (
+        <View style={styles.placeHolderCard}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      ) : (
+        <Swiper
+          cards={summaries}
+          backgroundColor={Colors.black1}
+          renderCard={renderCard}
+          stackSize={3}
+          cardVerticalMargin={50}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  loadingText: {
+    fontSize: 20,
+    color: Colors.white1,
+  },
   container: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-
-    
   },
   placeHolderCard: {
     flex: 1,
