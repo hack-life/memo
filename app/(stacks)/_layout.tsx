@@ -35,6 +35,8 @@ import AuthContextProvider, { AuthContext } from '@/store/auth-context';
 // npm install react-native-paper
 // npm install @expo/vector-icons
 // npm install react-native-elements @rneui/themed
+// npm install react-native-responsive-fontsize
+
 
 
 
@@ -42,7 +44,8 @@ const BottomTabs = createBottomTabNavigator();
 
 function StreaksScreens(){
   return (
-    <BottomTabs.Navigator>
+    <BottomTabs.Navigator  screenOptions={{headerShown: false,}}
+     >
       <BottomTabs.Screen name="MyStreaks" component= {MyStreaks} />
       <BottomTabs.Screen name="Leaderboard" component= {Leaderboard} />
     </BottomTabs.Navigator>

@@ -1,7 +1,8 @@
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    SafeAreaView,
 
 } from 'react-native';
 
@@ -16,10 +17,10 @@ function MyStreaks (){
     const navigation = useNavigation();
 
     return (
-        <View>
+        <SafeAreaView>
             <IconButtonMat icon="arrow-back-ios" size={40} color={Colors.purple1} onPress={() => navigation.navigate("Home")}/>
             <Text>MyStreaks</Text>
-        </View>
+        </SafeAreaView>
     
 )
 }

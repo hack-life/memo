@@ -82,22 +82,22 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.error2,
+    backgroundColor: Colors.grey1,
   },
   header: {
     flexDirection: "row",
-    backgroundColor: Colors.black1,
+    backgroundColor: Colors.error2,
     alignItems: "center",
     marginHorizontal: 5,
     justifyContent: "center",
     padding: 10,
-    height: deviceHeight * 0.08,
+    height: deviceHeight * 0.15,
   },
   scrollViewContent: {
     flexGrow: 1,
   },
   deckContainer: {
-    height: deviceHeight * 0.74,
+    height: deviceHeight * 0.60,
   },
   fixedButton: {
     position: "absolute",

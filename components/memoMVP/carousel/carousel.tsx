@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Card from "./card";
 import { Colors } from "@/constants/Colors";
@@ -17,10 +17,16 @@ interface Summary {
   summary2: string;
   summary3: string;
   length?: string;
+  
 }
+
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 const Carousel = ({ articles }: { articles: Articles[] }) => {
   const [summaries, setSummaries] = useState<Summary[]>([]);
+
+
 
   useEffect(() => {
     const getSummaries = async () => {
@@ -70,20 +76,23 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
 
   return (
     <View style={styles.container}>
-      {summaries.length === 0 ? (
+      {summaries.length === 0 ? 
+      
+      (
         <View style={styles.placeHolderCard}>
           <Text style={styles.loadingText}>Loading...</Text>
         </View>
-      ) : (
+      ) 
+      : 
+      (
         <Swiper
           cards={summaries}
           backgroundColor={Colors.black1}
           renderCard={renderCard}
           stackSize={3}
-          cardVerticalMargin={50}
+          cardVerticalMargin={10}
           verticalSwipe={false}
-         
-
+     
         />
       )}
     </View>
@@ -93,18 +102,20 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
 const styles = StyleSheet.create({
   loadingText: {
     fontSize: 20,
-    color: Colors.white1,
+    color: Colors.error1,
   },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "visible"
   },
   placeHolderCard: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+ 
 });
 
 export default Carousel;
