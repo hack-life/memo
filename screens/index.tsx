@@ -1,12 +1,11 @@
 import { SafeAreaView, StyleSheet, Dimensions, View, Text, ScrollView, Modal } from "react-native";
 import { Colors } from "@/constants/Colors";
-import Carousel from "@/components/memoMVP/carousel/carousel";
 import { useContext, useEffect, useState } from "react";
 import IconButton from "@/components/memoMVP/UI/IconButton";
 import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
-import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
+import Carousel from "@/components/memoMVP/Carousel/carousel";
 import { transparent } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 
 interface Articles {
@@ -58,11 +57,11 @@ export default function HomeScreen() {
 
       <ScrollView>
         <View style={[styles.deckContainer, { height: deviceHeight * 0.74 }]}>
-          <SwipableDeck articles={articles} />
+          <Carousel articles={articles} />
         </View>
       </ScrollView>
       
-      <
+      
     
     </SafeAreaView>
   );
