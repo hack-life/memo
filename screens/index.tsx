@@ -16,6 +16,7 @@ import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { setLogLevel } from "firebase/firestore";
 
 interface Articles {
   title: string;
@@ -27,6 +28,9 @@ export default function HomeScreen() {
   const deviceHeight = Dimensions.get("screen").height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+
+  // enable logs
+  setLogLevel("debug");
 
   const firebaseConfig = {
     apiKey: "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk",
@@ -41,85 +45,71 @@ export default function HomeScreen() {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const addArticle = async (article: {
-    title: string;
-    author: string;
-    content: string;
-  }) => {
+  const addArticle = async () => {
     try {
-      const docRef = await addDoc(collection(db, "articles"), article);
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815,
+      });
       console.log("Document written with ID: ", docRef.id);
-      return docRef.id;
     } catch (e) {
       console.error("Error adding document: ", e);
-      throw e;
     }
   };
 
-  const getArticles = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "articles"));
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-    } catch (e) {
-      console.error("Error getting documents: ", e);
-      throw e;
-    }
-  };
+  // useEffect(() => {
+  //   loadArticles();
+  // }, []);
 
-  useEffect(() => {
-    loadArticles();
-  }, []);
+  // const loadArticles = async () => {
+  //   try {
+  //     const fetchedArticles = await getArticles();
+  //     setArticles(fetchedArticles);
+  //   } catch (error) {
+  //     console.error("Failed to load articles:", error);
+  //   }
+  // };
 
-  const loadArticles = async () => {
-    try {
-      const fetchedArticles = await getArticles();
-      setArticles(fetchedArticles);
-    } catch (error) {
-      console.error("Failed to load articles:", error);
-    }
-  };
+  // const handleAddArticle = async () => {
+  //   const newArticle = {
+  //     title: "New Article",
+  //     author: "Test Author",
+  //     content: "This is a test article content.",
+  //   };
+  //   try {
+  //     await addArticle();
+  //     // loadArticles(); // Reload articles after adding
+  //   } catch (error) {
+  //     console.error("Failed to add article:", error);
+  //   }
+  // };
 
-  const handleAddArticle = async () => {
-    const newArticle = {
-      title: "New Article",
-      author: "Test Author",
-      content: "This is a test article content.",
-    };
-    try {
-      await addArticle(newArticle);
-      loadArticles(); // Reload articles after adding
-    } catch (error) {
-      console.error("Failed to add article:", error);
-    }
-  };
+  // useEffect(() => {
+  //   const loadArticles = async () => {
+  //     try {
+  //       // Directly require the JSON file
+  //       const articlesJson = require("../assets/articles.json");
+  //       // If articlesJson is already an array, use it directly
+  //       const articlesArray = Array.isArray(articlesJson)
+  //         ? articlesJson
+  //         : articlesJson.articles;
 
-  useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        // Directly require the JSON file
-        const articlesJson = require("../assets/articles.json");
-        // If articlesJson is already an array, use it directly
-        const articlesArray = Array.isArray(articlesJson)
-          ? articlesJson
-          : articlesJson.articles;
-
-        const parsedArticles: Articles[] = articlesArray.map(
-          (article: any) => ({
-            title: article.title,
-            content: Array.isArray(article.content)
-              ? article.content.join(" ") // Joining array into a single string
-              : article.content, // Using directly if it's already a string
-          })
-        );
-        setArticles(parsedArticles);
-      } catch (error) {
-        console.error("Failed to load articles:", error);
-      }
-    };
-    loadArticles();
-  }, []);
+  //       const parsedArticles: Articles[] = articlesArray.map(
+  //         (article: any) => ({
+  //           title: article.title,
+  //           content: Array.isArray(article.content)
+  //             ? article.content.join(" ") // Joining array into a single string
+  //             : article.content, // Using directly if it's already a string
+  //         })
+  //       );
+  //       setArticles(parsedArticles);
+  //     } catch (error) {
+  //       console.error("Failed to load articles:", error);
+  //     }
+  //   };
+  //   loadArticles();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -134,6 +124,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={[styles.bottomContainer, { height: deviceHeight * 0.2 }]}>
+          <Button title="Add Article" onPress={addArticle} />
           <IconButton
             icon="logout"
             size={24}
