@@ -31,13 +31,32 @@ export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
 
-  
   const getArticles = async () => {
     const articles: Articles[] = [];
-    const querySnapshot = await getDocs(collection(db, "articles"));
-    querySnapshot.forEach((doc) => {
-      articles.push(doc.data() as Articles);
-    });
+    try {
+      const querySnapshot = await getDocs(collection(db, "articles"));
+      console.log("Query response from firebase:", querySnapshot);
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log(doc.id, " => ", data);
+        if (
+          typeof data.Title === "string" &&
+          typeof data.Content === "string"
+        ) {
+          articles.push({
+            title: data.Title,
+            content: data.Content,
+          });
+          console.log(`Document ${doc.id} has been added to the articles`);
+        } else {
+          console.warn(`Document ${doc.id} has invalid data format`);
+          console.warn(`  title ${typeof data.Title} (${data.Titel})`);
+          console.warn(`  content ${typeof data.Content} (${data.Content})`);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
     return articles;
   };
 
