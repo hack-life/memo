@@ -15,7 +15,13 @@ import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, initializeFirestore } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  initializeFirestore,
+} from "firebase/firestore";
 import { setLogLevel } from "firebase/firestore";
 
 interface Articles {
@@ -37,9 +43,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = initializeFirestore(app, {
-  ignoreUndefinedProperties: false,
-}, "test1");
+const db = initializeFirestore(
+  app,
+  {
+    ignoreUndefinedProperties: false,
+  },
+  "test1"
+);
 
 export default function HomeScreen() {
   const deviceWidth = Dimensions.get("screen").width;
@@ -50,9 +60,9 @@ export default function HomeScreen() {
   const addArticle = async () => {
     try {
       const docRef = await addDoc(collection(db, "users"), {
-        first: "John",
-        last: "Von Neumann",
-        born: 1955,
+        first: "Raphael",
+        last: "Geron",
+        born: 2003,
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
