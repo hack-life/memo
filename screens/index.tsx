@@ -14,15 +14,9 @@ import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
 import Streaks from "@/components/memoMVP/Gamification/Streaks";
 import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  initializeFirestore,
-} from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { setLogLevel } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 interface Articles {
   title: string;
@@ -31,25 +25,6 @@ interface Articles {
 
 // enable logs
 setLogLevel("debug");
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk",
-  authDomain: "memo-ae862.firebaseapp.com",
-  projectId: "memo-ae862",
-  storageBucket: "memo-ae862.appspot.com",
-  messagingSenderId: "371867286010",
-  appId: "1:371867286010:web:0902c806ddae9c12864c43",
-  measurementId: "G-831ENZE591",
-};
-
-const app = initializeApp(firebaseConfig);
-const db = initializeFirestore(
-  app,
-  {
-    ignoreUndefinedProperties: false,
-  },
-  "test1"
-);
 
 export default function HomeScreen() {
   const deviceWidth = Dimensions.get("screen").width;
