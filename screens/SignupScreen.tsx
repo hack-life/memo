@@ -45,7 +45,7 @@ function SignupScreen() {
 
   return (
     <ImageBackground
-      source={require('@/assets/images/MyImages/noise.jpg')}
+      source={require('@/assets/images/MyImages/purpleNoise.jpg')}
       style={styles.background}
     >
       <View style={styles.container}>

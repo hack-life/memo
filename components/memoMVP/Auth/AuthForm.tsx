@@ -69,6 +69,7 @@ export default AuthForm;
 const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
+    alignItems: "center",
   },
 
 

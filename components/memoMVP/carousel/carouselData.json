@@ -4,7 +4,9 @@
       "summary1": "Summary sentence 1 for article 1",
       "summary2": "Summary sentence 2 for article 1",
       "summary3": "Summary sentence 3 for article 1",
-      "length": "10min"
+      "length": "10min",
+      "source": "New York Times",
+      "id": "0"
 
     },
     {
@@ -12,14 +14,18 @@
       "summary1": "Summary sentence 1 for article 2",
       "summary2": "Summary sentence 2 for article 2",
       "summary3": "Summary sentence 3 for article 2",
-      "length": "15min"
+      "length": "15min",
+       "source": "New York Times",
+      "id": "1"
     },
     {
       "title": "Article Title 3",
       "summary1": "Summary sentence 1 for article 3",
       "summary2": "Summary sentence 2 for article 3",
       "summary3": "Summary sentence 3 for article 3",
-      "length": "5min"
+      "length": "5min",
+       "source": "New York Times",
+      "id": "2"
     }
   ]
   

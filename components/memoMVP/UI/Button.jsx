@@ -19,7 +19,12 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 6,
+    width: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: 30,
+
     paddingVertical: 6,
     paddingHorizontal: 12,
     backgroundColor: Colors.black1,
@@ -35,7 +40,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold'
   },
 });

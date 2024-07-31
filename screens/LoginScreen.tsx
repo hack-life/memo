@@ -45,7 +45,7 @@ function LoginScreen() {
 
   return (
     <ImageBackground
-      source={require('@/assets/images/MyImages/noise.jpg')}
+      source={require('@/assets/images/MyImages/purpleNoise.jpg')}
       style={styles.background}
     >
       <View style={styles.container}>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center', // Pushes text to the top and AuthContent to the bottom
     paddingVertical: 20,
-    
   },
+
   textBox: {
     alignItems: 'center',
     paddingTop: deviceHeight * 0.2, // Adjust as needed
