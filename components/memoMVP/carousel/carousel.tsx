@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Card from "./card";
 import { Colors } from "@/constants/Colors";
-import llm from "@/components/memoMVP/Carousel/llm"; // Your summarization function
+import llm from "@/components/memoMVP/carousel/llm"; // Your summarization function
 import * as FileSystem from "expo-file-system";
 
 interface Articles {
