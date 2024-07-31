@@ -17,7 +17,6 @@ interface Summary {
   summary2: string;
   summary3: string;
   length?: string;
-  
 }
 
 const deviceWidth = Dimensions.get("screen").width;
@@ -25,8 +24,6 @@ const deviceHeight = Dimensions.get("screen").height;
 
 const Carousel = ({ articles }: { articles: Articles[] }) => {
   const [summaries, setSummaries] = useState<Summary[]>([]);
-
-
 
   useEffect(() => {
     const getSummaries = async () => {
@@ -76,15 +73,11 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
 
   return (
     <View style={styles.container}>
-      {summaries.length === 0 ? 
-      
-      (
+      {summaries.length === 0 ? (
         <View style={styles.placeHolderCard}>
           <Text style={styles.loadingText}>Loading...</Text>
         </View>
-      ) 
-      : 
-      (
+      ) : (
         <Swiper
           cards={summaries}
           backgroundColor={Colors.black1}
@@ -92,7 +85,6 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
           stackSize={3}
           cardVerticalMargin={10}
           verticalSwipe={false}
-     
         />
       )}
     </View>
@@ -108,14 +100,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    overflow: "visible"
+    overflow: "visible",
   },
   placeHolderCard: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
- 
 });
 
 export default Carousel;

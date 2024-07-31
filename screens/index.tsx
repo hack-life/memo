@@ -62,7 +62,6 @@ export default function HomeScreen() {
     return articles;
   };
 
-
   // useEffect(() => {
   //   loadArticles();
   // }, []);
@@ -75,7 +74,6 @@ export default function HomeScreen() {
   //     console.error("Failed to load articles:", error);
   //   }
   // };
-
 
   useEffect(() => {
     const loadArticles = async () => {
