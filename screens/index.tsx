@@ -62,18 +62,20 @@ export default function HomeScreen() {
     return articles;
   };
 
-  useEffect(() => {
-    loadArticles();
-  }, []);
 
-  const loadArticles = async () => {
-    try {
-      const fetchedArticles = await getArticles();
-      setArticles(fetchedArticles);
-    } catch (error) {
-      console.error("Failed to load articles:", error);
-    }
-  };
+  // useEffect(() => {
+  //   loadArticles();
+  // }, []);
+
+  // const loadArticles = async () => {
+  //   try {
+  //     const fetchedArticles = await getArticles();
+  //     setArticles(fetchedArticles);
+  //   } catch (error) {
+  //     console.error("Failed to load articles:", error);
+  //   }
+  // };
+
 
   useEffect(() => {
     const loadArticles = async () => {
