@@ -115,7 +115,7 @@ export default function HomeScreen() {
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.deckContainer}>
+          <View style={styles.deckContainer} >
             <Carousel articles={articles} />
           </View>
           <View>
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: Colors.black1,
+    
   },
   header: {
     flexDirection: "column",

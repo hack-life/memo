@@ -10,8 +10,8 @@ function ArticleList({ articles }) {
   return (
       <View style={styles.listContainer}>
           <FlatList
-              contentContainerStyle={styles.list}
               data={articles}
+              scrollEnabled={false}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                   <ArticleBox title={item.title} source={item.source} />
