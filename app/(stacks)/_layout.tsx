@@ -1,13 +1,14 @@
 import React from "react";
 
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Colors } from "@/constants/Colors";
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignupScreen from "@/screens/SignupScreen";
 import LoginScreen from "@/screens/LoginScreen";
 import HomeScreen from "@/screens/index";
-import ReadScreen from "@/screens/explore";
+import ReadScreen from "@/screens/Read";
+import MyStreaks from "@/screens/StreaksScreens/MyStreaks";
+import Leaderboard from "@/screens/StreaksScreens/Leaderboard";
+import ProfileScreen from "@/screens/ProfileScreen";
 
 import { useContext, useEffect, useState } from "react";
 
@@ -16,6 +17,31 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 
 import AuthContextProvider, { AuthContext } from "@/store/auth-context";
+
+// What you need to install :
+// npm install axios
+// npm install expo-app-loading
+// npm install @react-native-async-storage/async-storage
+// npm install @react-navigation/stack
+// npm install @react-navigation/bottom-tabs
+// npm install react-native-progress --save
+// npm install react-native-deck-swiper --save
+// expo install expo-font
+// npm install react-native-paper
+// npm install @expo/vector-icons
+// npm install react-native-elements @rneui/themed
+// npm install react-native-responsive-fontsize
+
+const BottomTabs = createBottomTabNavigator();
+
+function StreaksScreens() {
+  return (
+    <BottomTabs.Navigator screenOptions={{ headerShown: false }}>
+      <BottomTabs.Screen name="MyStreaks" component={MyStreaks} />
+      <BottomTabs.Screen name="Leaderboard" component={Leaderboard} />
+    </BottomTabs.Navigator>
+  );
+}
 
 const Stack = createNativeStackNavigator();
 
@@ -30,11 +56,16 @@ function AuthStack() {
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={HomeScreen} />
 
       <Stack.Screen name="Read" component={ReadScreen} />
+
+      <Stack.Screen name="StreaksScreens" component={StreaksScreens} />
+
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
 }

@@ -25,13 +25,13 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+    let { email, password } = credentials;
 
     email = email.trim();
     password = password.trim();
 
     const emailIsValid = email.includes('@');
-    const passwordIsValid = password.length > 6;
+    const passwordIsValid = password.length > 3;
 
     if (!emailIsValid || !passwordIsValid) {
       Alert.alert('Invalid input', 'Please check your entered credentials.');
@@ -67,16 +67,11 @@ export default AuthContent;
 const styles = StyleSheet.create({
 
   authContent: {
-    marginTop: 64,
-    marginHorizontal: 32,
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: Colors.black1,
-    elevation: 2,
-    shadowColor: Colors.white1,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 10,
+    marginTop: 40,
+    marginHorizontal: 20,
+    padding:15,
+   
+
   },
   buttons: {
     marginTop: 8,

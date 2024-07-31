@@ -1,109 +1,121 @@
-import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  Image,
-  Dimensions,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Summary from "./summary"; // Ensure the import path is correct
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import Swiper from "react-native-deck-swiper";
+import Card from "./card";
 import { Colors } from "@/constants/Colors";
+import llm from "@/components/memoMVP/carousel/llm"; // Your summarization function
+import * as FileSystem from "expo-file-system";
+
+interface Articles {
+  title: string;
+  content: string;
+}
+
+interface Summary {
+  title: string;
+  summary1: string;
+  summary2: string;
+  summary3: string;
+  length?: string;
+  
+}
 
 const deviceWidth = Dimensions.get("screen").width;
 const deviceHeight = Dimensions.get("screen").height;
 
-function Carousel({ title, summary1, summary2, summary3, length }) {
-  const navigation = useNavigation();
+const Carousel = ({ articles }: { articles: Articles[] }) => {
+  const [summaries, setSummaries] = useState<Summary[]>([]);
+
+
+
+  useEffect(() => {
+    const getSummaries = async () => {
+      if (articles.length === 0) {
+        console.log("No articles to summarize.");
+        return;
+      }
+      try {
+        const summaries = await Promise.all(
+          articles.map(async (article) => {
+            await llm(article.content);
+            const fileUri =
+              FileSystem.documentDirectory + "openairesponse.json";
+            const fileContent = await FileSystem.readAsStringAsync(fileUri);
+
+            const summary = JSON.parse(fileContent);
+            return {
+              title: article.title,
+              summary1: summary.summary1,
+              summary2: summary.summary2,
+              summary3: summary.summary3,
+              length: summary.length,
+            };
+          })
+        );
+        console.log("Summaries:", summaries);
+        setSummaries(summaries);
+      } catch (error) {
+        console.error("Error generating summaries:", error);
+      }
+    };
+
+    getSummaries();
+  }, [articles]);
+
+  const renderCard = (card: Summary) => {
+    return (
+      <Card
+        title={card.title}
+        summary1={card.summary1}
+        summary2={card.summary2}
+        summary3={card.summary3}
+        length={card.length}
+      />
+    );
+  };
 
   return (
-    <View style={styles.carouselOuter}>
-      <Pressable onPress={() => navigation.navigate("Read")}>
-        <View style={styles.carouselInner}>
-          <Image
-            source={require("@/assets/images/MyImages/noise.jpg")}
-            style={styles.image}
-          />
-          <View>
-            <Text style={styles.title}>{title}</Text>
-          </View>
-          <View style={styles.summaryContainer}>
-            <Summary text={summary1} />
-            <Summary text={summary2} />
-            <Summary text={summary3} />
-          </View>
-          <View style={styles.bottomCarousel}>
-            <Text style={styles.rightText}>{length}</Text>
-          </View>
+    <View style={styles.container}>
+      {summaries.length === 0 ? 
+      
+      (
+        <View style={styles.placeHolderCard}>
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
-      </Pressable>
+      ) 
+      : 
+      (
+        <Swiper
+          cards={summaries}
+          backgroundColor={Colors.black1}
+          renderCard={renderCard}
+          stackSize={3}
+          cardVerticalMargin={10}
+          verticalSwipe={false}
+     
+        />
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  carouselOuter: {
-    justifyContent: "center", // Center the carousel vertically
+  loadingText: {
+    fontSize: 20,
+    color: Colors.error1,
+  },
+  container: {
+    flex: 1,
     alignItems: "center",
-    backgroundColor: "transparent",
-  },
-  carouselInner: {
-    width: deviceWidth * 0.88,
-    backgroundColor: Colors.black2,
-    borderRadius: 30,
-    elevation: 15,
-    shadowColor: Colors.grey2,
-    shadowOpacity: 0.8,
-    shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 10, /// to be changed
-  },
-  image: {
-    width: "100%",
-    height: deviceHeight * 0.15, // Adjust height relative to device height
-    marginBottom: 10,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 16,
-    color: Colors.white1,
-    alignSelf: "flex-start",
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
-  },
-  summaryContainer: {
-    alignSelf: "flex-start",
-    marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  bottomCarousel: {
-    flexDirection: "row",
     justifyContent: "center",
-    width: "100%",
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    borderRadius: 30,
+    overflow: "visible"
+  },
+  placeHolderCard: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
   },
-  leftText: {
-    fontSize: 20,
-    color: Colors.white1,
-    fontStyle: "italic",
-    padding: 5,
-  },
-  rightText: {
-    fontSize: 20,
-    color: Colors.black1,
-    backgroundColor: Colors.grey2,
-    fontStyle: "italic",
-    borderRadius: 20,
-    padding: 10,
-  },
+ 
 });
 
 export default Carousel;

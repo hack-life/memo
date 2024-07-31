@@ -5,31 +5,33 @@ import {
   View,
   Text,
   Button,
+  ScrollView,
 } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
 import { Colors } from "@/constants/Colors";
-import { useContext, useEffect, useState } from "react";
 import IconButton from "@/components/memoMVP/UI/IconButton";
 import { AuthContext } from "@/store/auth-context";
 import WisdomBar from "@/components/memoMVP/Gamification/wisdomBar";
-import Streaks from "@/components/memoMVP/Gamification/Streaks";
-import SwipableDeck from "@/components/memoMVP/carousel/SwipableDeck";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { setLogLevel } from "firebase/firestore";
+import TopLine from "@/components/memoMVP/Gamification/TopLine";
+import Carousel from "@/components/memoMVP/carousel/carousel";
+import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
+import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
+import AddURL from "@/components/memoMVP/AddURL";
 import { db } from "../firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
 interface Articles {
   title: string;
-  content: string; // Changed from string[] to string
+  content: string;
 }
 
-// enable logs
-setLogLevel("debug");
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 export default function HomeScreen() {
-  const deviceWidth = Dimensions.get("screen").width;
-  const deviceHeight = Dimensions.get("screen").height;
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const getArticles = async () => {
     const articles: Articles[] = [];
@@ -76,19 +78,16 @@ export default function HomeScreen() {
   useEffect(() => {
     const loadArticles = async () => {
       try {
-        // Directly require the JSON file
         const articlesJson = require("../assets/articles.json");
-        // If articlesJson is already an array, use it directly
         const articlesArray = Array.isArray(articlesJson)
           ? articlesJson
           : articlesJson.articles;
-
         const parsedArticles: Articles[] = articlesArray.map(
           (article: any) => ({
             title: article.title,
             content: Array.isArray(article.content)
-              ? article.content.join(" ") // Joining array into a single string
-              : article.content, // Using directly if it's already a string
+              ? article.content.join(" ")
+              : article.content,
           })
         );
         setArticles(parsedArticles);
@@ -99,65 +98,74 @@ export default function HomeScreen() {
     loadArticles();
   }, []);
 
+  const articlesAllJson = require("../assets/articlesAll.json");
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.wrapper}>
-        <View style={[styles.topContainer, { height: deviceHeight * 0.08 }]}>
-          <WisdomBar wisdomScore={0.75} />
-          <Streaks dayCount={5} />
+        <View style={styles.header}>
+          <TopLine />
+          <WisdomBar wisdomScore={0.6} />
         </View>
 
-        <View style={[styles.deckContainer, { height: deviceHeight * 0.64 }]}>
-          <SwipableDeck articles={articles} />
-        </View>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <View style={styles.deckContainer}>
+            <Carousel articles={articles} />
+          </View>
+          <View>
+            <ReadMore articles={articlesAllJson} />
+          </View>
+        </ScrollView>
 
-        <View style={[styles.bottomContainer, { height: deviceHeight * 0.2 }]}>
-          <Button title="Add Article" onPress={getArticles} />
-          <IconButton
-            icon="logout"
-            size={24}
-            color={Colors.purple2}
-            onPress={authCtx.logout}
-          />
-          <Text style={styles.logoutText}>Logout</Text>
-        </View>
+        {!isModalVisible && (
+          <View style={styles.fixedButton}>
+            <IconButtonAnt
+              icon="pluscircle"
+              size={80}
+              color={Colors.purple1}
+              onPress={toggleModal}
+            />
+          </View>
+        )}
+
+        <AddURL isModalVisible={isModalVisible} toggleModal={toggleModal} />
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  logoutText: {
-    color: Colors.purple2,
-    fontSize: 16,
-    // make bold
-    fontWeight: "bold",
-  },
   safeArea: {
     flex: 1,
     backgroundColor: Colors.black1,
   },
   wrapper: {
     flex: 1,
+    backgroundColor: Colors.black1,
   },
-  topContainer: {
-    flexDirection: "row",
+  header: {
+    flexDirection: "column",
     backgroundColor: Colors.black1,
     alignItems: "center",
-    marginLeft: 10,
-    justifyContent: "center",
-    padding: 10,
-    zIndex: 1, // Ensure it is below the deck
+    justifyContent: "flex-start",
+
+    padding: 5,
+    height: deviceHeight * 0.15,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
   deckContainer: {
-    zIndex: 1, // Ensure the deck is above both containers
+    height: deviceHeight * 0.6,
   },
-  bottomContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: 10,
-    backgroundColor: "transparent",
-    zIndex: 1, // Ensure it is below the deck
+  fixedButton: {
+    position: "absolute",
+    bottom: 5,
+    right: 5,
+    zIndex: 1,
   },
 });

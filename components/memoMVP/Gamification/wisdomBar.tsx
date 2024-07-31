@@ -1,7 +1,8 @@
 import {
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    Dimensions,
 
 } from 'react-native';
 
@@ -9,6 +10,8 @@ import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
 
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 function WisdomBar({wisdomScore}){
     const percentage = wisdomScore * 100
@@ -27,10 +30,11 @@ function WisdomBar({wisdomScore}){
         </View>
         
         <Progress.Bar
-        width={250}
-        height={7}
+        width={deviceWidth * 0.9}
+        height={10}
         progress={wisdomScore}
-        color={Colors.purple2}
+        color={Colors.purple1}
+        borderRadius={20}
         
       />
 
@@ -44,17 +48,18 @@ export default WisdomBar;
 const styles = StyleSheet.create({
 
     main: {
-        
         flexDirection: "column",
         justifyContent: "center",
+        
+
         
     },
 
     info: {
-        flex:1,
         flexDirection:"row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginTop : 10,
     },
 
     gameText: {
