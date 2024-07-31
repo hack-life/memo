@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 
 const OPENAI_API_KEY =
-  "sk-proj-Y7g7DTlYRA2A9Sp34AkaT3BlbkFJR8Kqz3lJFM4urCpwGS7C";
+  "sk-proj-9SxNUvMwOzxA0FSAeDAhT3BlbkFJ03bWeKeUqcSj4IuouFvn";
 
 const generateAndSaveSummary = async (inputText: string) => {
   try {

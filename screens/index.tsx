@@ -7,7 +7,6 @@ import {
   Button,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
-import Carousel from "@/components/memoMVP/carousel/carousel";
 import { useContext, useEffect, useState } from "react";
 import IconButton from "@/components/memoMVP/UI/IconButton";
 import { AuthContext } from "@/store/auth-context";
@@ -32,71 +31,54 @@ export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
 
-  const addArticle = async () => {
+  
+  const getArticles = async () => {
+    const articles: Articles[] = [];
+    const querySnapshot = await getDocs(collection(db, "articles"));
+    querySnapshot.forEach((doc) => {
+      articles.push(doc.data() as Articles);
+    });
+    return articles;
+  };
+
+  useEffect(() => {
+    loadArticles();
+  }, []);
+
+  const loadArticles = async () => {
     try {
-      const docRef = await addDoc(collection(db, "users"), {
-        first: "Raphael",
-        last: "Geron",
-        born: 2003,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+      const fetchedArticles = await getArticles();
+      setArticles(fetchedArticles);
+    } catch (error) {
+      console.error("Failed to load articles:", error);
     }
   };
 
-  // useEffect(() => {
-  //   loadArticles();
-  // }, []);
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        // Directly require the JSON file
+        const articlesJson = require("../assets/articles.json");
+        // If articlesJson is already an array, use it directly
+        const articlesArray = Array.isArray(articlesJson)
+          ? articlesJson
+          : articlesJson.articles;
 
-  // const loadArticles = async () => {
-  //   try {
-  //     const fetchedArticles = await getArticles();
-  //     setArticles(fetchedArticles);
-  //   } catch (error) {
-  //     console.error("Failed to load articles:", error);
-  //   }
-  // };
-
-  // const handleAddArticle = async () => {
-  //   const newArticle = {
-  //     title: "New Article",
-  //     author: "Test Author",
-  //     content: "This is a test article content.",
-  //   };
-  //   try {
-  //     await addArticle();
-  //     // loadArticles(); // Reload articles after adding
-  //   } catch (error) {
-  //     console.error("Failed to add article:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const loadArticles = async () => {
-  //     try {
-  //       // Directly require the JSON file
-  //       const articlesJson = require("../assets/articles.json");
-  //       // If articlesJson is already an array, use it directly
-  //       const articlesArray = Array.isArray(articlesJson)
-  //         ? articlesJson
-  //         : articlesJson.articles;
-
-  //       const parsedArticles: Articles[] = articlesArray.map(
-  //         (article: any) => ({
-  //           title: article.title,
-  //           content: Array.isArray(article.content)
-  //             ? article.content.join(" ") // Joining array into a single string
-  //             : article.content, // Using directly if it's already a string
-  //         })
-  //       );
-  //       setArticles(parsedArticles);
-  //     } catch (error) {
-  //       console.error("Failed to load articles:", error);
-  //     }
-  //   };
-  //   loadArticles();
-  // }, []);
+        const parsedArticles: Articles[] = articlesArray.map(
+          (article: any) => ({
+            title: article.title,
+            content: Array.isArray(article.content)
+              ? article.content.join(" ") // Joining array into a single string
+              : article.content, // Using directly if it's already a string
+          })
+        );
+        setArticles(parsedArticles);
+      } catch (error) {
+        console.error("Failed to load articles:", error);
+      }
+    };
+    loadArticles();
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -111,7 +93,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={[styles.bottomContainer, { height: deviceHeight * 0.2 }]}>
-          <Button title="Add Article" onPress={addArticle} />
+          <Button title="Add Article" onPress={getArticles} />
           <IconButton
             icon="logout"
             size={24}
