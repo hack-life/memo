@@ -64,7 +64,7 @@ function AuthStack() {
       screenOptions={{headerShown: false,}}
     >
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />ù
+      <Stack.Screen name="Signup" component={SignupScreen} />
 
     </Stack.Navigator>
   );
@@ -73,6 +73,7 @@ function AuthStack() {
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
+
   return (
     <Stack.Navigator
     screenOptions={{headerShown: false,}}>

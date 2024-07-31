@@ -1,36 +1,32 @@
 import {
-    FlatList,
-    StyleSheet,
-
+  FlatList,
+  StyleSheet,
+  View,
 } from 'react-native';
 
 import ArticleBox from './ArticleBox';
 
-
-function ArticleList ({articles}){
-
-
-
-    return (
-   
-            <FlatList
-              style={styles.list}
+function ArticleList({ articles }) {
+  return (
+      <View style={styles.listContainer}>
+          <FlatList
+              contentContainerStyle={styles.list}
               data={articles}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <ArticleBox title={item.title}  source={item.source} />
+                  <ArticleBox title={item.title} source={item.source} />
               )}
-            />
-);
+          />
+      </View>
+  );
 }
-   
 
 export default ArticleList;
 
 const styles = StyleSheet.create({
-    list: {
-
-    },
-
+  listContainer: {
+      flex: 1, // Allow the list container to take up available space
+      width: '95%', // Make sure it takes the full width
+  },
 
 });

@@ -52,7 +52,6 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <TopLine />
           <WisdomBar wisdomScore={0.60} />
-    
         </View>
         
 
@@ -67,7 +66,7 @@ export default function HomeScreen() {
 
         {!isModalVisible && (
           <View style={styles.fixedButton}>
-            <IconButtonAnt icon="pluscircle" size={100} color={Colors.purple1} onPress={toggleModal} />
+            <IconButtonAnt icon="pluscircle" size={80} color={Colors.purple1} onPress={toggleModal} />
           </View>
         )}
 
@@ -81,19 +80,19 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.error1,
+    backgroundColor: Colors.black1,
   },
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.grey1,
+    backgroundColor: Colors.black1,
   },
   header: {
     flexDirection: "column",
-    backgroundColor: Colors.error2,
+    backgroundColor: Colors.black1,
     alignItems: "center",
-    marginHorizontal: 5,
-    justifyContent: "center",
-    padding: 10,
+    justifyContent: "flex-start",
+   
+    padding: 5,
     height: deviceHeight * 0.15,
   },
   scrollViewContent: {
@@ -104,8 +103,8 @@ const styles = StyleSheet.create({
   },
   fixedButton: {
     position: "absolute",
-    bottom: 20,
-    right: 20,
+    bottom: 5,
+    right: 5,
     zIndex: 1,
   },
 });

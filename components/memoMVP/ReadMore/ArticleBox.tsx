@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 function ArticleBox({ title, source }) {
   const navigation = useNavigation();
@@ -12,7 +13,11 @@ function ArticleBox({ title, source }) {
     >
       <View style={styles.info}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.title}>{source}</Text>
+        <Text style={styles.source}>{source}</Text>        
+      </View>
+
+      <View style={styles.icon}>
+        <FontAwesome5 name="chevron-right" size={40} color="black" />
       </View>
     </Pressable>
   );
@@ -23,32 +28,34 @@ export default ArticleBox;
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    borderRadius: 6,
-    marginVertical: 12,
-    backgroundColor: Colors.black1,
-    elevation: 2,
-    shadowColor: 'black',
-    shadowOpacity: 0.15,
-    shadowOffset: { width: 1, height: 1 },
-    shadowRadius: 2,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginVertical: 7,
+    backgroundColor: Colors.grey1,
+  
   },
   pressed: {
-    opacity: 0.9,
+    opacity: 0.7,
   },
-  image: {
-    flex: 1,
-    borderBottomLeftRadius: 4,
-    borderTopLeftRadius: 4,
-    height: 100,
-  },
+
   info: {
     flex: 2,
     padding: 12,
   },
   title: {
-    fontWeight: 'bold',
+    marginLeft: 15,
     fontSize: 18,
-    color: Colors.purple1,
+    color: Colors.white1,
+    fontWeight: "bold",
+  },
+
+  source: {
+    marginLeft: 15,
+    fontSize: 18,
+    color: Colors.white1,
+  },
+
+  icon: {
+    marginRight: 15,
   },
 });
