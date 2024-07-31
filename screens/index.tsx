@@ -28,72 +28,72 @@ export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk",
-    authDomain: "memo-ae862.firebaseapp.com",
-    projectId: "memo-ae862",
-    storageBucket: "memo-ae862.appspot.com",
-    messagingSenderId: "371867286010",
-    appId: "1:371867286010:web:0902c806ddae9c12864c43",
-    measurementId: "G-831ENZE591",
-  };
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk",
+  //   authDomain: "memo-ae862.firebaseapp.com",
+  //   projectId: "memo-ae862",
+  //   storageBucket: "memo-ae862.appspot.com",
+  //   messagingSenderId: "371867286010",
+  //   appId: "1:371867286010:web:0902c806ddae9c12864c43",
+  //   measurementId: "G-831ENZE591",
+  // };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  // const app = initializeApp(firebaseConfig);
+  // const db = getFirestore(app);
 
-  const addArticle = async (article: {
-    title: string;
-    author: string;
-    content: string;
-  }) => {
-    try {
-      const docRef = await addDoc(collection(db, "articles"), article);
-      console.log("Document written with ID: ", docRef.id);
-      return docRef.id;
-    } catch (e) {
-      console.error("Error adding document: ", e);
-      throw e;
-    }
-  };
+  // const addArticle = async (article: {
+  //   title: string;
+  //   author: string;
+  //   content: string;
+  // }) => {
+  //   try {
+  //     const docRef = await addDoc(collection(db, "articles"), article);
+  //     console.log("Document written with ID: ", docRef.id);
+  //     return docRef.id;
+  //   } catch (e) {
+  //     console.error("Error adding document: ", e);
+  //     throw e;
+  //   }
+  // };
 
-  const getArticles = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "articles"));
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-      });
-    } catch (e) {
-      console.error("Error getting documents: ", e);
-      throw e;
-    }
-  };
+  // const getArticles = async () => {
+  //   try {
+  //     const querySnapshot = await getDocs(collection(db, "articles"));
+  //     querySnapshot.forEach((doc) => {
+  //       console.log(`${doc.id} => ${doc.data()}`);
+  //     });
+  //   } catch (e) {
+  //     console.error("Error getting documents: ", e);
+  //     throw e;
+  //   }
+  // };
 
-  useEffect(() => {
-    loadArticles();
-  }, []);
+  // useEffect(() => {
+  //   loadArticles();
+  // }, []);
 
-  const loadArticles = async () => {
-    try {
-      const fetchedArticles = await getArticles();
-      setArticles(fetchedArticles);
-    } catch (error) {
-      console.error("Failed to load articles:", error);
-    }
-  };
+  // const loadArticles = async () => {
+  //   try {
+  //     const fetchedArticles = await getArticles();
+  //     setArticles(fetchedArticles);
+  //   } catch (error) {
+  //     console.error("Failed to load articles:", error);
+  //   }
+  // };
 
-  const handleAddArticle = async () => {
-    const newArticle = {
-      title: "New Article",
-      author: "Test Author",
-      content: "This is a test article content.",
-    };
-    try {
-      await addArticle(newArticle);
-      loadArticles(); // Reload articles after adding
-    } catch (error) {
-      console.error("Failed to add article:", error);
-    }
-  };
+  // const handleAddArticle = async () => {
+  //   const newArticle = {
+  //     title: "New Article",
+  //     author: "Test Author",
+  //     content: "This is a test article content.",
+  //   };
+  //   try {
+  //     await addArticle(newArticle);
+  //     loadArticles(); // Reload articles after adding
+  //   } catch (error) {
+  //     console.error("Failed to add article:", error);
+  //   }
+  // };
 
   useEffect(() => {
     const loadArticles = async () => {
