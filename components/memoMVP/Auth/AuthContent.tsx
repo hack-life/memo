@@ -6,6 +6,14 @@ import FlatButton from '../UI/FlatButton';
 import AuthForm from './AuthForm';
 import { Colors } from '@/constants/Colors';
 
+
+/**
+ * AuthContent component
+ * This component is responsible for rendering the authentication form and handling the authentication process.
+ * @param {boolean} isLogin
+ * @param {function} onAuthenticate
+ * @returns {JSX.Element}
+ */
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
 
