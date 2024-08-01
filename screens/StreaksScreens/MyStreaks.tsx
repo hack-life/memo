@@ -6,8 +6,11 @@ import { Colors } from "@/constants/Colors";
 import { useNavigation } from 'expo-router';
 
 import StreaksCalendar from '@/components/memoMVP/StreaksCalendar';
+import WisdomBar from '@/components/memoMVP/Gamification/wisdomBar';
 
 const { width, height } = Dimensions.get('window');
+
+const activeDay = ['2024-08-01','2024-08-02', '2024-08-03', '2024-08-04', '2024-08-06']
 
 function MyStreaks() {
   const navigation = useNavigation();
@@ -30,7 +33,10 @@ function MyStreaks() {
         <MaterialIcons name="local-fire-department" size={35} color={Colors.purple1} />
       </View>
 
-      <StreaksCalendar />
+      <WisdomBar wisdomScore={0.7}/>
+
+  
+      <StreaksCalendar activeDay={activeDay}/>
     </SafeAreaView>
   );
 }
@@ -75,4 +81,9 @@ const styles = StyleSheet.create({
   calendar: {
     marginTop: 20,
   },
+
+  date: {
+    fontSize: 20,
+    color: Colors.white1,
+  }
 });
