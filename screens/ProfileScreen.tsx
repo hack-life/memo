@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '@/store/auth-context';
 import FlatButton from '@/components/memoMVP/UI/FlatButton';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
+
 
 function ProfileScreen() {
   const navigation = useNavigation();
@@ -17,7 +19,7 @@ function ProfileScreen() {
         <FontAwesome5 
           name="chevron-left" 
           size={24} 
-          color="black" 
+          color={Colors.purple1 }
           onPress={() => navigation.goBack()} 
           style={styles.backIcon} 
         />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
-import IconButtonMat from '@/components/memoMVP/UI/IconButtonMat';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from 'expo-router';
@@ -17,16 +17,18 @@ function MyStreaks() {
 
   return (
     <SafeAreaView style={styles.container}>
+
       <View style={styles.header}>
-        <IconButtonMat
-          icon="arrow-back-ios"
-          size={40}
-          color={Colors.white1}
-          onPress={() => navigation.navigate("Home")}
+        <FontAwesome5 
+          name="chevron-left" 
+          size={24} 
+          color={Colors.purple1 }
+          onPress={() => navigation.navigate("Home")} 
+          style={styles.backIcon} 
         />
-        <Text style={styles.title}>Streak</Text>
-        <View style={styles.placeholder} />
+        <Text style={styles.headerTitle}>Streaks</Text>
       </View>
+
       
       <View style={styles.streaksContainer}>
         <Text style={styles.streaksText}>182</Text>
@@ -44,27 +46,29 @@ function MyStreaks() {
 export default MyStreaks;
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: Colors.grey1,
-    
-  },
+
   container: {
     flex: 1,
     backgroundColor: Colors.black1,
     padding: 16,
   },
-  title: {
-    fontSize: 30,
+ 
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 16,
+  },
+  backIcon: {
+    position: 'absolute',
+    left: 16,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: Colors.purple1,
-    textAlign: 'center',
-    
   },
-  placeholder: {
-    width: 40, // To balance the space taken by the IconButton
-  },
+
   streaksContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
