@@ -26,7 +26,7 @@ function MyStreaks() {
           onPress={() => navigation.navigate("Home")} 
           style={styles.backIcon} 
         />
-        <Text style={styles.headerTitle}>Streaks</Text>
+        <Text style={styles.headerTitle}>My Streaks</Text>
       </View>
 
       

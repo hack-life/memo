@@ -4,6 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from 'expo-router';
 
+
 const { width, height } = Dimensions.get('window');
 
 const activeDay = ['2024-08-01','2024-08-02', '2024-08-03', '2024-08-04', '2024-08-06']
@@ -21,8 +22,10 @@ function Leaderboard() {
           onPress={() => navigation.navigate("Home")} 
           style={styles.backIcon} 
         />
-        <Text style={styles.headerTitle}>Leaderboard</Text>
+        <Text style={styles.headerTitle}>Friends</Text>
       </View>
+
+      
     </SafeAreaView>
   );
 }
