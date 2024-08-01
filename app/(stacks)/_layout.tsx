@@ -23,20 +23,37 @@ import AppLoading from 'expo-app-loading';
 
 import AuthContextProvider, { AuthContext } from '@/store/auth-context';
 
+import { Colors } from '@/constants/Colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const BottomTabs = createBottomTabNavigator();
 
 function StreaksScreens(){
   return (
-    <BottomTabs.Navigator  screenOptions={{headerShown: false,}}
-     >
-      <BottomTabs.Screen name="MyStreaks" component= {MyStreaks} />
-      <BottomTabs.Screen name="Leaderboard" component= {Leaderboard} />
+    <BottomTabs.Navigator
+    screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: Colors.purple1,
+    
+    }}
+    >
+      <BottomTabs.Screen
+        name="MyStreaks"
+        component={MyStreaks}
+        options={{
+          tabBarLabel: 'Personal',
+          }}
+      />
+      <BottomTabs.Screen
+        name="Leaderboard"
+        component={Leaderboard}
+        options={{
+          tabBarLabel: 'Friends',
+        }}
+      />
     </BottomTabs.Navigator>
-
   );
 }
-
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
