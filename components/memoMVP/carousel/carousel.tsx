@@ -49,7 +49,7 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
             };
           })
         );
-        console.log("Summaries:", summaries);
+        // console.log("Summaries:", summaries);
         setSummaries(summaries);
       } catch (error) {
         console.error("Error generating summaries:", error);

@@ -1,22 +1,9 @@
 /* eslint-disable */
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';   
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 import { JSDOM } from "jsdom";
 
-const fetch = (global as any).fetch || require('node-fetch');
-
-
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+const fetch = (global as any).fetch || require("node-fetch");
 
 admin.initializeApp();
 
@@ -27,62 +14,68 @@ interface ArticleContent {
   createdAt: admin.firestore.Timestamp;
 }
 
-const extractContent = (document: Document): string => {
-  const articleContent =
-    document.querySelector("article") ||
-    document.querySelector("main") ||
-    document.body;
-  if (!articleContent) return "";
-
-  const clonedContent = articleContent.cloneNode(true) as HTMLElement;
-  clonedContent.querySelectorAll("script, style").forEach((el) => el.remove());
-  const walker = document.createTreeWalker(
-    clonedContent,
-    NodeFilter.SHOW_COMMENT
-  );
-  while (walker.nextNode())
-    walker.currentNode.parentNode?.removeChild(walker.currentNode);
-
-  return clonedContent.textContent?.trim() || "";
-};
-
-export const extractArticleContent = functions.https.onRequest(
-  async (req: functions.https.Request, res: functions.Response): Promise<void> => {
-    if (req.method !== "POST") {
-      res.status(405).json({ error: "Method not allowed" });
-      return;
-    }
-
-    const { url } = req.body;
-    if (!url) {
-      res.status(400).json({ error: "No URL provided" });
-      return;
-    }
-
+exports.extractArticleContent = functions.https.onRequest(
+  async (
+    req: functions.https.Request,
+    res: functions.Response
+  ): Promise<void> => {
     try {
+      if (req.method !== "POST") {
+        res.status(405).json({ error: "Method not allowed" });
+        return;
+      }
+
+      const { url } = req.body;
+
+      if (!url) {
+        res.status(400).json({ error: "No URL provided" });
+        return;
+      }
+
       const response = await fetch(url);
       const html = await response.text();
+
       const dom = new JSDOM(html);
       const doc = dom.window.document;
 
+      const title = doc.querySelector("title")?.textContent || "No title found";
+
+      const articleContentFetched =
+        doc.querySelector("article") || doc.querySelector("main") || doc.body;
+      if (articleContentFetched) {
+        const scriptsAndStyles =
+          articleContentFetched.querySelectorAll("script, style");
+        scriptsAndStyles.forEach((el: Element) => el.remove());
+
+        const comments = articleContentFetched.childNodes;
+        for (let i = comments.length - 1; i >= 0; i--) {
+          if (comments[i].nodeType === 8) {
+            // Node.COMMENT_NODE
+            comments[i].remove();
+          }
+        }
+      }
+
       const articleContent: ArticleContent = {
-        title:
-          doc.querySelector("title")?.textContent?.trim() || "No title found",
-        content: extractContent(doc),
+        title: title.trim() || "No title found",
+        content: articleContentFetched.textContent?.trim() || "",
         url: url,
         createdAt: admin.firestore.Timestamp.now(),
       };
 
-      // Save to Firestore (need to test this)
-      const db = admin.firestore();
-      const articlesRef = db.collection("articles");
-      const docRef = await articlesRef.add(articleContent);
+      // // Save to Firestore (need to test this)
+      // console.log("Saving article content:", articleContent);
+      // const db = admin.firestore();
+      // const articlesRef = db.collection("articles");
+      // const docRef = await articlesRef.add(articleContent);
 
-      res.status(200).json({
-        message: "Article extracted and saved successfully",
-        articleId: docRef.id,
-        ...articleContent,
-      });
+      // res.status(200).json({
+      //   message: "Article extracted and saved successfully",
+      //   articleId: docRef.id,
+      //   ...articleContent,
+      // });
+
+      res.status(200).json(articleContent);
     } catch (error) {
       console.error("Error extracting or saving article content:", error);
       res
