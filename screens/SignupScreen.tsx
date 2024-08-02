@@ -75,12 +75,14 @@ const styles = StyleSheet.create({
   textBox: {
     alignItems: 'center',
     paddingTop: deviceHeight * 0.2, // Adjust as needed
+    justifyContent: "center",
   },
 
   welcome: {
     fontSize: 50,
     fontFamily: 'Serif',
     color: Colors.white1,
+
   },
   authContent: {
     // Add any additional styling you need for the AuthContent container

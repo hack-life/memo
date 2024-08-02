@@ -13,22 +13,19 @@ import ProfileButton from './ProfileButton'
 import { Colors } from "@/constants/Colors";
 
 
-import { useFonts } from 'expo-font';
-
+import { useLoadFonts } from '@/hooks/useLoadFonts';
 
 
 function TopLine (){
-
-    const [fontsLoaded] = useFonts({
-        'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
-        'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
-      });
-
-    if (!fontsLoaded) {
-        return null; // or some loading indicator
-    }
     
     const navigation = useNavigation();
+
+    const fontsLoaded = useLoadFonts();
+
+    if (!fontsLoaded) {
+      return null; // or some loading indicator
+    }
+  
 
     return (
 

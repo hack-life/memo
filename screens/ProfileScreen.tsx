@@ -5,21 +5,28 @@ import { AuthContext } from '@/store/auth-context';
 import FlatButton from '@/components/memoMVP/UI/FlatButton';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
-
+import { useLoadFonts } from '@/hooks/useLoadFonts';
+import ProfileDetails from '@/components/memoMVP/Profile/ProfileDetails';
 
 function ProfileScreen() {
   const navigation = useNavigation();
   const authCtx = useContext(AuthContext);
 
-  const user_name = 'Johnny'; // Replace with dynamic username
+  const user_name = 'John'; // Replace with dynamic username
+
+  const fontsLoaded = useLoadFonts();
+
+  if (!fontsLoaded) {
+    return null; // or some loading indicator
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <FontAwesome5 
           name="chevron-left" 
-          size={24} 
-          color={Colors.purple1 }
+          size={30} 
+          color={Colors.white1}
           onPress={() => navigation.goBack()} 
           style={styles.backIcon} 
         />
@@ -34,9 +41,7 @@ function ProfileScreen() {
         <Text style={styles.welcomeMessage}>Welcome back, {user_name}!</Text>
       </View>
 
-      <View style={styles.detailsSection}>
-        <Text style={styles.detailsText}>Profile Details</Text>
-      </View>
+      <ProfileDetails />
 
       <View style={styles.buttonRow}>
         <FlatButton children={"Add friends"} onPress={() => {}} style={styles.button} />
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   header: {
-    flexDirection: 'row',
+    flexDirection: "row-reverse",
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 16,
@@ -69,63 +74,52 @@ const styles = StyleSheet.create({
     left: 16,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: 35,
+    color: Colors.purple1,
+    fontFamily: "Serif",
   },
   profileSection: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#2E2E2E',
-    padding: 16,
-    borderRadius: 10,
-    marginVertical: 16,
+    justifyContent: 'space-evenly',
+    alignItems: "center",
+    backgroundColor: Colors.grey1,
+    padding: 20,
+    marginVertical: 20,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30
   },
   profileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 16,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   welcomeMessage: {
     fontSize: 18,
     color: 'white',
-  },
-  detailsSection: {
-    backgroundColor: '#2E2E2E',
-    padding: 16,
-    borderRadius: 10,
-    marginVertical: 16,
-    alignItems: 'center',
-  },
-  detailsText: {
-    fontSize: 16,
-    color: 'white',
+    fontFamily: "Serif"
   },
   buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: "space-evenly",
     marginVertical: 16,
   },
   button: {
-    flex: 1,
-    marginHorizontal: 8,
-    backgroundColor: '#3E3E3E',
-    padding: 10,
-    borderRadius: 10,
+    marginHorizontal: 10,
+    paddingHorizontal : 20,
+    backgroundColor: Colors.grey1,
+    borderRadius: 20,
   },
   footer: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#2E2E2E',
+    bottom: 15,
+    left: 10,
+
     padding: 16,
     alignItems: 'center',
   },
   logoutButton: {
-    backgroundColor: '#3E3E3E',
+    backgroundColor: Colors.purple1,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
   },
 });
