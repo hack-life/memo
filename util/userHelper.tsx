@@ -1,76 +1,71 @@
-import { collection, getCountFromServer, getDoc, doc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  getCountFromServer,
+} from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 /**
- * Get a user object by email
- * @param email
- * @returns the user object
+ * Get a user document by ID
+ * @param {string} userId - The UID for the user
+ * @returns {Object|null} The user object or null if not found
  */
 export async function getUserById(userId) {
   try {
-    const usersRef = doc(db, "users", userId);
-    const userDoc = await getDoc(usersRef);
-    if (userDoc.exists()) {
-      return userDoc.data();
-    } else {
-      console.log("No such user!");
-      return null;
-    }
+    const userDoc = await getDoc(doc(db, "users", userId));
+    return userDoc.exists() ? userDoc.data() : null;
   } catch (error) {
-    console.log("Error getting user by email: ", error);
+    console.error("Error getting user by ID:", error);
+    throw error;
+  }
+}
+
+/**
+ * Get a specific field from a user document
+ * @param {string} userId - The UID for the user
+ * @param {string} field - The field to retrieve
+ * @returns {Array} The requested field data or an empty array
+ */
+async function getUserField(userId, field) {
+  try {
+    const userDoc = await getDoc(doc(db, "users", userId));
+    return userDoc.exists() ? userDoc.data()[field] || [] : [];
+  } catch (error) {
+    console.error(`Error getting user ${field}:`, error);
     throw error;
   }
 }
 
 /**
  * Get the articles saved by a user
- * @param userId
- * @returns the articles the user has saved
+ * @param {string} userId - The UID for the user
+ * @returns {Array} The articles the user has saved
  */
-export async function getUserArticles(userId) {
-  try {
-    const usersRef = doc(db, "users", userId);
-    const userDoc = await getDoc(usersRef);
-    if (userDoc.exists()) {
-      // If the document exists, return the articles array
-      const userData = userDoc.data();
-      return userData.articles || []; // Return an empty array if articles doesn't exist
-    } else {
-      console.log("No such user!");
-      return [];
-    }
-  } catch (error) {
-    console.error("Error getting user articles:", error);
-    throw error;
-  }
+export function getUserArticles(userId) {
+  return getUserField(userId, "articles");
 }
 
 /**
  * Get the user's friends
- * @param userId
- * @returns the user's friends list
+ * @param {string} userId - The UID for the user
+ * @returns {Array} The user's friends list
  */
-export async function getUserFriends(userId) {
-  try {
-    const usersRef = doc(db, "users", userId);
-    
-  } catch (error) {
-    console.log("Error getting user friends: ", error);
-    throw error;
-  }
+export function getUserFriends(userId) {
+  return getUserField(userId, "friends");
+}
 
 /**
  * Get the number of documents in a collection
- * @param collectionName
- * @returns the number of documents in the collection
+ * @param {string} collectionName - The name of the collection
+ * @returns {number} The number of documents in the collection
  */
 export async function getCollectionCount(collectionName) {
   try {
-    const collectionRef = collection(db, collectionName);
-    const snapshot = await getCountFromServer(collectionRef);
+    const snapshot = await getCountFromServer(collection(db, collectionName));
     return snapshot.data().count;
   } catch (error) {
-    console.log("Error getting collection count: ", error);
+    console.error("Error getting collection count:", error);
     throw error;
   }
 }

@@ -37,7 +37,7 @@ export async function createUser(email, password) {
     const userDoc = createUserDocument(email);
     await addUserToFirestore(UID, userDoc);
 
-    return token;
+    return { token, UID };
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
