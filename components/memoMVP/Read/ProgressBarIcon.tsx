@@ -8,7 +8,7 @@ import {
 
 } from 'react-native';
 
-import {useState} from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 
 import IconButton from '../UI/IconButton';
@@ -16,24 +16,26 @@ import * as Progress from 'react-native-progress';
 import { Colors } from '@/constants/Colors';
 
 
+const deviceHeight = Dimensions.get('screen').height
+const deviceWidth = Dimensions.get('screen').width
 
-function ProgressBarIcon ({progress}){   
+
+function ProgressBarIcon ({progress, Barwidth}){   
 
     const navigation = useNavigation();
-    const deviceHeight = Dimensions.get('screen').height
-
+  
     return (
         <View style={[styles.bottomContainer, { height: deviceHeight * 0.08 }]} >
           <IconButton 
             icon="arrow-left-circle" 
             size={30} 
-            color={Colors.purple2}
+            color={Colors.purple1}
             onPress={() => navigation.goBack()}/>
           <Progress.Bar
-            width={270}
+            width={Barwidth}
             height={9}
             progress={progress}
-            color={Colors.purple2}
+            color={Colors.purple1}
           />
           
         </View>

@@ -70,6 +70,7 @@ export default function ReadScreen() {
   }, []);
 
   const deviceHeight = Dimensions.get('screen').height;
+  const deviceWidth = Dimensions.get('screen').width;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,7 +88,7 @@ export default function ReadScreen() {
         <Article />
       </ScrollView>
 
-      <ProgressBarIcon progress={progress} />
+      <ProgressBarIcon progress={progress} Barwidth={deviceWidth*0.75}/>
     </SafeAreaView>
   );
 }

@@ -23,6 +23,10 @@ function TopLine (){
         'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
         'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
       });
+
+    if (!fontsLoaded) {
+        return null; // or some loading indicator
+    }
     
     const navigation = useNavigation();
 
@@ -41,7 +45,6 @@ function TopLine (){
 )
 }
    
-
 export default TopLine;
 
 const styles = StyleSheet.create({
@@ -55,8 +58,8 @@ const styles = StyleSheet.create({
 
     title : {
         fontSize: 35,
-        fontFamily: "Serif",
         color: Colors.purple1,   
+        fontFamily: "Serif",
     },
 
     titleBox: {

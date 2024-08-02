@@ -13,6 +13,10 @@ function StreaksButton({ dayCount }) {
     'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
   });
 
+  if (!fontsLoaded) {
+    return null; // or some loading indicator
+}
+
   return (
     <Pressable
       onPress={() => navigation.navigate("StreaksScreens")}
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 30,
-        marginRight: 10,
+        marginRight: 20,
         
       },
 
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     },
     
   DayCount: {
-    fontSize: 25,
+    fontSize: 28,
     color: Colors.white1,
     fontFamily: 'Serif',
     

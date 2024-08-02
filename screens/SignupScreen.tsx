@@ -86,3 +86,6 @@ const styles = StyleSheet.create({
     // Add any additional styling you need for the AuthContent container
   },
 });
+
+
+
