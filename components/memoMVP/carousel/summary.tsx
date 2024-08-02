@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   
   text: {
-    fontSize: RFPercentage(2.5),
+    fontSize: RFPercentage(2.2),
     color: Colors.white1,
     marginTop: 5,
   },

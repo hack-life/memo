@@ -16,7 +16,10 @@ function ReadMore({ articles }) {
         'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
         'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
       });
-    
+
+    if (!fontsLoaded) {
+        return null; // or some loading indicator
+    }
     return (
         <View style={styles.container}>
             <Divider 

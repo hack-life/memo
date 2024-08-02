@@ -8,7 +8,6 @@ import {
 
 import { useFonts } from 'expo-font';
 
-
 import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,12 +16,14 @@ function ProfileButton (){
 
     const navigation = useNavigation();
 
-    const [fontsLoaded] =useFonts({
+    const [fontsLoaded] = useFonts({
         'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
         'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
-        
       });
 
+    if (!fontsLoaded) {
+        return null; // or some loading indicator
+    }
 
     return (
         <Pressable
@@ -37,7 +38,6 @@ function ProfileButton (){
 
             <View style={styles.Profile}>
                 <Text style={styles.text}>Profile</Text>
-                <MaterialIcons name="account-circle" size={35} color= {Colors.purple1} />
             </View>
 
         </Pressable>
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 30,
+        marginLeft: 20,
         
       },
     Profile: {
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontSize: 20,
+        fontSize: 23,
         color: Colors.white1,
-        fontFamily: 'Serif'
+        fontFamily: 'Serif',
     }
 });

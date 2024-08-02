@@ -23,7 +23,7 @@ function Card({ title, summary1, summary2, summary3, length }) {
       <Pressable onPress={() => navigation.navigate("Read")}>
         <View style={styles.carouselInner}>
           <Image
-            source={require("@/assets/images/MyImages/noise.jpg")}
+            source={require("@/assets/images/MyImages/purpleNoise.jpg")}
             style={styles.image}
           />
           <View>
@@ -81,9 +81,10 @@ const styles = StyleSheet.create({
   },
   summaryContainer: {
     alignSelf: "flex-start",
-    marginBottom: 3,
+    marginBottom: 10,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 6,
+    
   },
   bottomCarousel: {
     flexDirection: "row",
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     position: 'absolute',
-    bottom: 10, // Adjust as needed for padding at the bottom
+    bottom: 5, // Adjust as needed for padding at the bottom
   },
   Time: {
     fontSize: RFPercentage(2.5), // Responsive font size
