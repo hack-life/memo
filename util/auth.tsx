@@ -4,7 +4,13 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
 } from "@firebase/auth";
-import { addDoc, collection, getCountFromServer } from "firebase/firestore";
+import {
+  addDoc,
+  setDoc,
+  doc,
+  collection,
+  getCountFromServer,
+} from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 const API_KEY = "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk"; /// Memo project
@@ -24,41 +30,52 @@ async function authenticate(mode, email, password) {
 
 export async function createUser(email, password) {
   try {
-    // Sign up using the API
     const token = await authenticate("signUp", email, password);
-    const userCount = await getCollectionCount("users");
+    const userData = await getUserData(token);
+    const UID = userData.localId;
 
-    // Add user to Firestore
-    const dateJoined = new Date().toISOString().split("T")[0];
-    const userRef = await addDoc(collection(db, "users"), {
-      id: userCount + 1,
-      username: email,
-      date_joined: dateJoined,
-      friends: [],
-      articles: [],
-      streaks: 0,
-      wisdomscore: 0,
-    });
+    const userDoc = createUserDocument(email);
+    await addUserToFirestore(UID, userDoc);
 
-    console.log("New user added with ref: ", userRef.id);
     return token;
   } catch (error) {
-    console.log("Error creating user: ", error);
+    console.error("Error creating user:", error);
     throw error;
   }
+}
+
+async function getUserData(token) {
+  const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
+  const response = await axios.post(url, { idToken: token });
+
+  if (response.data.error) {
+    throw new Error(response.data.error.message);
+  }
+
+  if (!response.data.users || response.data.users.length === 0) {
+    throw new Error("Failed to retrieve user data");
+  }
+
+  return response.data.users[0];
+}
+
+function createUserDocument(email) {
+  return {
+    username: email,
+    date_joined: new Date().toISOString().split("T")[0],
+    friends: [],
+    articles: [],
+    streaks: 0,
+    wisdomscore: 0,
+  };
+}
+
+async function addUserToFirestore(UID, userDoc) {
+  const userRef = doc(db, "users", UID);
+  await setDoc(userRef, userDoc);
+  console.log("New user added with UID:", UID);
 }
 
 export function login(email, password) {
   return authenticate("signInWithPassword", email, password);
-}
-
-async function getCollectionCount(collectionName) {
-  try {
-    const collectionRef = collection(db, collectionName);
-    const snapshot = await getCountFromServer(collectionRef);
-    return snapshot.data().count;
-  } catch (error) {
-    console.log("Error getting collection count: ", error);
-    throw error;
-  }
 }
