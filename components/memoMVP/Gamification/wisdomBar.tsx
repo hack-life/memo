@@ -16,11 +16,14 @@ const deviceHeight = Dimensions.get("screen").height;
 function WisdomBar({wisdomScore}){
     const percentage = wisdomScore * 100
 
-    const [fontsLoaded] =useFonts({
+    const [fontsLoaded] = useFonts({
         'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
         'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
       });
 
+    if (!fontsLoaded) {
+        return null; // or some loading indicator
+    }
     return (
 
     <View style={styles.main} >
@@ -30,8 +33,8 @@ function WisdomBar({wisdomScore}){
         </View>
         
         <Progress.Bar
-        width={deviceWidth * 0.9}
-        height={10}
+        width={deviceWidth * 0.85}
+        height={8}
         progress={wisdomScore}
         color={Colors.purple1}
         borderRadius={20}
@@ -50,22 +53,20 @@ const styles = StyleSheet.create({
     main: {
         flexDirection: "column",
         justifyContent: "center",
-        
-
-        
+    
     },
 
     info: {
         flexDirection:"row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginTop : 10,
+        marginTop : 15,
     },
 
     gameText: {
         fontSize: 20,
         color: Colors.white1,
-        fontFamily: "Serif"
+        fontFamily: "Serif-Italic",
 
 
     }

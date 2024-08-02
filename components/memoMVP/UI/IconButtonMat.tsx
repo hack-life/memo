@@ -3,7 +3,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 
-function IconButtonMat({ icon, size, color, onPress }) {
+function IconButtonMat({ icon, size, color, onPress}) {
     return (
       <Pressable
         onPress={onPress}
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     borderRadius: 24,
     padding: 6,
-    marginHorizontal: 8,
-    marginVertical: 2
+    marginHorizontal: 10,
+    marginVertical: 3
   },
   pressed: {
     opacity: 0.75,

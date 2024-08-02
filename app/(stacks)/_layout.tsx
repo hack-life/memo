@@ -1,80 +1,112 @@
-import React from "react";
+import React from 'react';
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import SignupScreen from "@/screens/SignupScreen";
-import LoginScreen from "@/screens/LoginScreen";
-import HomeScreen from "@/screens/index";
-import ReadScreen from "@/screens/Read";
-import MyStreaks from "@/screens/StreaksScreens/MyStreaks";
-import Leaderboard from "@/screens/StreaksScreens/Leaderboard";
-import ProfileScreen from "@/screens/ProfileScreen";
 
-import { useContext, useEffect, useState } from "react";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { StatusBar } from "expo-status-bar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import AppLoading from "expo-app-loading";
 
-import AuthContextProvider, { AuthContext } from "@/store/auth-context";
 
-// What you need to install :
-// npm install axios
-// npm install expo-app-loading
-// npm install @react-native-async-storage/async-storage
-// npm install @react-navigation/stack
-// npm install @react-navigation/bottom-tabs
-// npm install react-native-progress --save
-// npm install react-native-deck-swiper --save
-// expo install expo-font
-// npm install react-native-paper
-// npm install @expo/vector-icons
-// npm install react-native-elements @rneui/themed
-// npm install react-native-responsive-fontsize
+import SignupScreen from '@/screens/SignupScreen';
+import LoginScreen from '@/screens/LoginScreen';
+import HomeScreen from '@/screens/index';
+import ReadScreen from '@/screens/Read';
+import MyStreaks from '@/screens/StreaksScreens/MyStreaks';
+import Leaderboard from '@/screens/StreaksScreens/Leaderboard';
+import ProfileScreen from '@/screens/ProfileScreen';
+
+import { useContext, useEffect, useState } from 'react';
+
+import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppLoading from 'expo-app-loading';
+
+
+import AuthContextProvider, { AuthContext } from '@/store/auth-context';
+
+import { Colors } from '@/constants/Colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const BottomTabs = createBottomTabNavigator();
 
-function StreaksScreens() {
+function StreaksScreens(){
   return (
-    <BottomTabs.Navigator screenOptions={{ headerShown: false }}>
-      <BottomTabs.Screen name="MyStreaks" component={MyStreaks} />
-      <BottomTabs.Screen name="Leaderboard" component={Leaderboard} />
+    <BottomTabs.Navigator
+    screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: Colors.purple1,
+    
+    }}
+    >
+      <BottomTabs.Screen
+        name="MyStreaks"
+        component={MyStreaks}
+        options={{
+          tabBarLabel: 'Personal',
+          }}
+      />
+      <BottomTabs.Screen
+        name="Leaderboard"
+        component={Leaderboard}
+        options={{
+          tabBarLabel: 'Friends',
+        }}
+      />
     </BottomTabs.Navigator>
   );
 }
-
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false,}}
+    >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
+
     </Stack.Navigator>
   );
 }
+
 
 function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator
+    screenOptions={{headerShown: false,}}>
 
-      <Stack.Screen name="Read" component={ReadScreen} />
 
-      <Stack.Screen name="StreaksScreens" component={StreaksScreens} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}/>
 
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-    </Stack.Navigator>
-  );
-}
+
+      <Stack.Screen
+        name="Read"
+        component={ReadScreen}/>
+
+      <Stack.Screen 
+        name="StreaksScreens"
+        component= {StreaksScreens} />
+
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen} />
+
+      </Stack.Navigator>
+
+        );
+      }
+
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <>{!authCtx.isAuthenticated ? <AuthStack /> : <AuthenticatedStack />}</>
+    <>
+      {!authCtx.isAuthenticated ? <AuthStack /> : <AuthenticatedStack />}
+    </>
   );
 }
 
@@ -85,7 +117,7 @@ function Root() {
 
   useEffect(() => {
     async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem("token");
+      const storedToken = await AsyncStorage.getItem('token');
 
       if (storedToken) {
         authCtx.authenticate(storedToken);
@@ -105,6 +137,7 @@ function Root() {
 }
 
 export default function ScreenLayout() {
+  
   return (
     <>
       <StatusBar style="light" />
@@ -114,3 +147,5 @@ export default function ScreenLayout() {
     </>
   );
 }
+
+

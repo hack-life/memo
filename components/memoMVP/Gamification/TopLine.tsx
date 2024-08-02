@@ -13,18 +13,19 @@ import ProfileButton from './ProfileButton'
 import { Colors } from "@/constants/Colors";
 
 
-import { useFonts } from 'expo-font';
-
+import { useLoadFonts } from '@/hooks/useLoadFonts';
 
 
 function TopLine (){
-
-    const [fontsLoaded] = useFonts({
-        'Serif-Italic': require('@/assets/fonts/DMSerifText-Italic.ttf'),
-        'Serif': require('@/assets/fonts/DMSerifText-Regular.ttf'),
-      });
     
     const navigation = useNavigation();
+
+    const fontsLoaded = useLoadFonts();
+
+    if (!fontsLoaded) {
+      return null; // or some loading indicator
+    }
+  
 
     return (
 
@@ -41,7 +42,6 @@ function TopLine (){
 )
 }
    
-
 export default TopLine;
 
 const styles = StyleSheet.create({
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
 
     title : {
         fontSize: 35,
-        fontFamily: "Serif",
         color: Colors.purple1,   
+        fontFamily: "Serif",
     },
 
     titleBox: {

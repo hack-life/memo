@@ -18,7 +18,7 @@ import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
 import AddURL from "@/components/memoMVP/AddURL";
 import { db } from "../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 interface Articles {
   title: string;
@@ -32,6 +32,18 @@ export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const addArticle = async (article: Articles) => {
+    try {
+      const docRef = await addDoc(collection(db, "articles"), {
+        Title: article.title,
+        Content: article.content,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document:", error);
+    }
+  }
 
   const getArticles = async () => {
     const articles: Articles[] = [];
@@ -62,7 +74,6 @@ export default function HomeScreen() {
     return articles;
   };
 
-
   // useEffect(() => {
   //   loadArticles();
   // }, []);
@@ -75,7 +86,6 @@ export default function HomeScreen() {
   //     console.error("Failed to load articles:", error);
   //   }
   // };
-
 
   useEffect(() => {
     const loadArticles = async () => {
@@ -115,7 +125,7 @@ export default function HomeScreen() {
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.deckContainer}>
+          <View style={styles.deckContainer} >
             <Carousel articles={articles} />
           </View>
           <View>
@@ -148,6 +158,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: Colors.black1,
+    
   },
   header: {
     flexDirection: "column",
