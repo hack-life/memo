@@ -12,8 +12,25 @@ import { BlurView } from "expo-blur";
 import { Colors } from "@/constants/Colors";
 import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import axios from "axios";
+import { db } from "../../firebaseConfig";
+import {
+  addDoc,
+  getDoc,
+  setDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  collection,
+  getCountFromServer,
+} from "firebase/firestore";
+import cheerio from "cheerio";
+import { AuthContext } from "@/store/auth-context";
+import { useContext } from "react";
+import { getUserData } from "../../util/auth";
 
 function AddURL({ isModalVisible, toggleModal }) {
+  const authCtx = useContext(AuthContext);
+
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,19 +43,51 @@ function AddURL({ isModalVisible, toggleModal }) {
     setIsLoading(true);
 
     try {
-      // Replace with your actual Firebase function URL
-      const functionUrl =
-        "https://us-central1-memo-ae862.cloudfunctions.net/extractArticleContent";
+      const UID = "2AjFbpdDQ04IsIqbjWoK"; // get from auth context
 
-      const response = await axios.post(functionUrl, { url: inputValue });
+      const userRef1 = doc(db, "users", );
+      const userRef1Data = (await getDoc(userRef1)).id;
 
-      if (response.status === 200) {
-        Alert.alert("Success", "Article imported successfully");
-        setInputValue("");
-        toggleModal();
-      } else {
-        throw new Error("Failed to import article");
-      }
+      // const userData = await getUserData(authCtx.token);
+      // console.log("userData:", userData);
+      // const UID = userData.localId;
+      // console.log("context token:", authCtx.token);
+      // console.log("UID:", UID);
+      // Fetch the HTML content of the webpage
+      const response = await fetch(inputValue);
+      const body = await response.text();
+
+      // Load the HTML into cheerio  
+      const $ = cheerio.load(body);
+
+      // Array to store articles
+      const articles = [];
+
+      // Select each article block (change the selector based on actual HTML structure)
+      $("article").each((index, element) => {
+        const title = $(element).find("h1, h2").text().trim(); // Adjust selector as necessary
+        const content = $(element).find("p").text().trim(); // Adjust selector to get detailed content
+
+        articles.push({ title, content });
+      });
+
+      console.log("Articles:", articles);
+
+      // save to firestore
+      const userRef = doc(db, "users", UID);
+
+      const articleData = {
+        title: articles[0].title,
+        content: articles[0].content,
+        url: inputValue,
+        date_added: new Date().toISOString(),
+      };
+      // add article to user's article field in firestore
+      await updateDoc(userRef, {
+        articles: arrayUnion(articleData),
+      });
+
+      Alert.alert("Success", "Article imported successfully");
     } catch (error) {
       console.error("Error importing article:", error);
       Alert.alert("Error", "Failed to import article. Please try again.");

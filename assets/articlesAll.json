@@ -1,39 +1,32 @@
 [
-    {
-      "title": "TitleTest1",
-      "source": "YCombinator",
-      "id": 0
-    },
-
-    {
-        "title": "TitleTest2",
-        "source": "YCombinator",
-        "id": 1
-    },
-    
-    {
-        "title": "TitleTest3",
-        "source": "YCombinator",
-        "id": 2
-    },
-
-    {
-        "title": "TitleTest4",
-        "source": "YCombinator",
-        "id": 3
-    },
-
-    {
-        "title": "TitleTest4",
-        "source": "YCombinator",
-        "id": 4
-    },
-
-    {
-        "title": "TitleTest5",
-        "source": "YCombinator",
-        "id": 5
-    },
-
-  ]
-  
+  {
+    "title": "Innovative AI Trends",
+    "source": "YCombinator",
+    "id": 0
+  },
+  {
+    "title": "Blockchain Breakthroughs",
+    "source": "YCombinator",
+    "id": 1
+  },
+  {
+    "title": "Quantum Computing 101",
+    "source": "YCombinator",
+    "id": 2
+  },
+  {
+    "title": "The Future of Robotics",
+    "source": "YCombinator",
+    "id": 3
+  },
+  {
+    "title": "Startup Funding Secrets",
+    "source": "YCombinator",
+    "id": 4
+  },
+  {
+    "title": "Tech Giants' Next Moves",
+    "source": "YCombinator",
+    "id": 5
+  }
+]

@@ -1,15 +1,14 @@
 [
   {
+    "title": "AlphaZero: Shedding new light on chess, shogi, and Go",
+    "content": "In late 2017 we introduced AlphaZero, a single system that taught itself from scratch how to master the games of chess, shogi(Japanese chess), and Go, beating a world-champion program in each case. We were excited by the preliminary results and thrilled to see the response from members of the chess community, who saw in AlphaZero’s games a ground-breaking, highly dynamic and “unconventional” style of play that differed from any chess playing engine that came before it. Today, we are delighted to introduce the full evaluation of AlphaZero, published in the journal Science (Open Access version here), that confirms and updates those preliminary results. It describes how AlphaZero quickly learns each game to become the strongest player in history for each, despite starting its training from random play, with no in-built domain knowledge but the basic rules of the game."
+  },
+  {
     "title": "How to get startup ideas",
     "content": "The way to get startup ideas is not to try to think of startup ideas. It's to look for problems, preferably problems you have yourself.\n\nThe very best startup ideas tend to have three things in common: they're something the founders themselves want, that they themselves can build, and that few others realize are worth doing. Microsoft, Apple, Yahoo, Google, and Facebook all began this way.\n\nProblems\n\nWhy is it so important to work on a problem you have? Among other things, it ensures the problem really exists. It sounds obvious to say you should only work on problems that exist. And yet by far the most common mistake startups make is to solve problems no one has.\n\nI made it myself. In 1995 I started a company to put art galleries online. But galleries didn't want to be online. It's not how the art business works. So why did I spend 6 months working on this stupid idea? Because I didn't pay attention to users. I invented a model of the world that didn't correspond to reality, and worked from that. I didn't notice my model was wrong until I tried to convince users to pay for what we'd built. Even then I took embarrassingly long to catch on. I was attached to my model of the world, and I'd spent a lot of time on the software. They had to want it!\n\nWhy do so many founders build things no one wants? Because they begin by trying to think of startup ideas. That m.o. is doubly dangerous: it doesn't merely yield few good ideas; it yields bad ideas that sound plausible enough to fool you into working on them"
-    
   },
   {
-    "title": "Article Title 2",
-    "content": "2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui."
-  },
-  {
-    "title": "Article Title 3",
-    "content": "3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui."
+    "title": "There's no silver bullet in AI",
+    "content": "Twitter is not real life, but it’s not too far away in the world of AI. With how quickly things are changing, Twitter is the place to go to find out the news — the latest Llama releases (or advance leaks), the coolest new demos (which may or may not be real), and of course the most recent RAG optimization techniques. In the context of these announcements, someone is always eager to declare the news to be a game-changer — this is the thing that’s going to dramatically change how we build AI applications, while also erasing OpenAI’s moat in a single day and disrupting every incumbent software provider in the world. That’s a lot for a single model to accomplish! We hate to rain on everyone’s parade, but most of these predictions are frankly unrealistic. Don’t get us wrong: Llama-3.1, Claude 3.5, and GPT-4o Mini were all big deals. Each one of them opened up new points in the design space for LLM applications."
   }
 ]

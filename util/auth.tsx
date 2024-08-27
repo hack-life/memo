@@ -44,7 +44,7 @@ export async function createUser(email, password) {
   }
 }
 
-async function getUserData(token) {
+export async function getUserData(token) {
   const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
   const response = await axios.post(url, { idToken: token });
 
