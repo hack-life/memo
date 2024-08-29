@@ -3,7 +3,7 @@ import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function ArticleBox({ title, source }) {
+function ArticleBox({ title, url }) {
   const navigation = useNavigation();
 
   return (
@@ -13,7 +13,7 @@ function ArticleBox({ title, source }) {
     >
       <View style={styles.info}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.source}>{source}</Text>        
+        <Text style={styles.source}>{url}</Text>        
       </View>
 
       <View style={styles.icon}>

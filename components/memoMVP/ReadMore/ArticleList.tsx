@@ -14,7 +14,7 @@ function ArticleList({ articles }) {
               scrollEnabled={false}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                  <ArticleBox title={item.title} source={item.source} />
+                  <ArticleBox title={item.title} url={item.url} />
               )}
           />
       </View>

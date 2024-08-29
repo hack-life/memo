@@ -18,7 +18,7 @@ import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
 import AddURL from "@/components/memoMVP/AddURL";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
 
 interface Articles {
   title: string;
@@ -31,86 +31,76 @@ const deviceHeight = Dimensions.get("screen").height;
 export default function HomeScreen() {
   const authCtx = useContext(AuthContext);
   const [articles, setArticles] = useState<Articles[]>([]);
+  const [allArticles, setAllArticles] = useState<Articles[]>([]);
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const addArticle = async (article: Articles) => {
-    try {
-      const docRef = await addDoc(collection(db, "articles"), {
-        Title: article.title,
-        Content: article.content,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error adding document:", error);
-    }
-  }
-
-  const getArticles = async () => {
-    const articles: Articles[] = [];
-    try {
-      const querySnapshot = await getDocs(collection(db, "articles"));
-      console.log("Query response from firebase:", querySnapshot);
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        console.log(doc.id, " => ", data);
-        if (
-          typeof data.Title === "string" &&
-          typeof data.Content === "string"
-        ) {
-          articles.push({
-            title: data.Title,
-            content: data.Content,
-          });
-          console.log(`Document ${doc.id} has been added to the articles`);
-        } else {
-          console.warn(`Document ${doc.id} has invalid data format`);
-          console.warn(`  title ${typeof data.Title} (${data.Titel})`);
-          console.warn(`  content ${typeof data.Content} (${data.Content})`);
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-    }
-    return articles;
-  };
-
-  // useEffect(() => {
-  //   loadArticles();
-  // }, []);
-
-  // const loadArticles = async () => {
-  //   try {
-  //     const fetchedArticles = await getArticles();
-  //     setArticles(fetchedArticles);
-  //   } catch (error) {
-  //     console.error("Failed to load articles:", error);
-  //   }
-  // };
-
+  // Fetch all articles from the database
   useEffect(() => {
-    const loadArticles = async () => {
+    const getAllArticles = async () => {
       try {
-        const articlesJson = require("../assets/articles.json");
-        const articlesArray = Array.isArray(articlesJson)
-          ? articlesJson
-          : articlesJson.articles;
-        const parsedArticles: Articles[] = articlesArray.map(
-          (article: any) => ({
+        const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
+        const userRef = doc(db, "users", UID);
+        const docSnap = await getDoc(userRef);
+
+        // If the document exists, get the articles array
+        if (docSnap.exists()) {
+          let allArticles = docSnap.data()?.articles ?? [];
+          console.log("Articles:", allArticles);
+
+          // parse all articles
+          const parsedArticles = allArticles.map(
+            (article: any, index: number) => ({
+              title: article.title,
+              url: article.url,
+              key: index.toString(), // Fallback to using the index as the key
+            })
+          );
+
+          setAllArticles(parsedArticles);
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error contacting server :", error);
+      }
+    };
+    getAllArticles();
+  }, []);
+
+  // Fetch 3 random articles from the database to display in the carousel
+  useEffect(() => {
+    const getSelectedArticles = async () => {
+      try {
+        const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
+        const userRef = doc(db, "users", UID);
+        const docSnap = await getDoc(userRef);
+
+        // If the document exists, get the articles array
+        if (docSnap.exists()) {
+          let articles = docSnap.data()?.articles ?? [];
+
+          // Shuffle the array to get a random order
+          articles = articles.sort(() => Math.random() - 0.5);
+
+          // Get the first 3 articles after shuffling
+          const selectedArticles = articles.slice(0, 3);
+
+          const parsedArticles = selectedArticles.map((article: any) => ({
             title: article.title,
             content: Array.isArray(article.content)
               ? article.content.join(" ")
               : article.content,
-          })
-        );
-        setArticles(parsedArticles);
+          }));
+          setArticles(parsedArticles);
+        } else {
+          console.log("No such document!");
+        }
       } catch (error) {
-        console.error("Failed to load articles:", error);
+        console.error("Error contacting server:", error);
       }
     };
-    loadArticles();
-  }, []);
-
-  const articlesAllJson = require("../assets/articlesAll.json");
+    getSelectedArticles();
+  }, []); // Dependency array is empty, meaning this effect runs once on component mount
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -125,11 +115,11 @@ export default function HomeScreen() {
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.deckContainer} >
+          <View style={styles.deckContainer}>
             <Carousel articles={articles} />
           </View>
           <View>
-            <ReadMore articles={articlesAllJson} />
+            <ReadMore articles={allArticles} />
           </View>
         </ScrollView>
 
@@ -158,7 +148,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: Colors.black1,
-    
   },
   header: {
     flexDirection: "column",
