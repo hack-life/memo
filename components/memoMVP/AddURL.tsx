@@ -45,12 +45,6 @@ function AddURL({ isModalVisible, toggleModal }) {
     try {
       const UID = "W1V7h70asObNSak0Pr1MJjjopgP2"; 
 
-      // const userData = await getUserData(authCtx.token);
-      // console.log("userData:", userData);
-      // const UID = userData.localId;
-      // console.log("context token:", authCtx.token);
-      // console.log("UID:", UID);
-
       // Fetch the HTML content of the webpage
       const response = await fetch(inputValue);
       const body = await response.text();
