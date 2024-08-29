@@ -45,8 +45,8 @@ function AddURL({ isModalVisible, toggleModal }) {
     try {
       const UID = "2AjFbpdDQ04IsIqbjWoK"; // get from auth context
 
-      const userRef1 = doc(db, "users", );
-      const userRef1Data = (await getDoc(userRef1)).id;
+      // const userRef1 = doc(db, "users", );
+      // const userRef1Data = (await getDoc(userRef1)).id;
 
       // const userData = await getUserData(authCtx.token);
       // console.log("userData:", userData);
@@ -73,19 +73,19 @@ function AddURL({ isModalVisible, toggleModal }) {
 
       console.log("Articles:", articles);
 
-      // save to firestore
-      const userRef = doc(db, "users", UID);
+      // // save to firestore
+      // const userRef = doc(db, "users", UID);
 
-      const articleData = {
-        title: articles[0].title,
-        content: articles[0].content,
-        url: inputValue,
-        date_added: new Date().toISOString(),
-      };
-      // add article to user's article field in firestore
-      await updateDoc(userRef, {
-        articles: arrayUnion(articleData),
-      });
+      // const articleData = {
+      //   title: articles[0].title,
+      //   content: articles[0].content,
+      //   url: inputValue,
+      //   date_added: new Date().toISOString(),
+      // };
+      // // add article to user's article field in firestore
+      // await updateDoc(userRef, {
+      //   articles: arrayUnion(articleData),
+      // });
 
       Alert.alert("Success", "Article imported successfully");
     } catch (error) {
