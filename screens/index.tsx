@@ -18,7 +18,14 @@ import IconButtonAnt from "@/components/memoMVP/UI/IconButtonAnt";
 import ReadMore from "@/components/memoMVP/ReadMore/ReadMore";
 import AddURL from "@/components/memoMVP/AddURL";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  getDocs,
+  getDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 
 interface Articles {
   title: string;
@@ -36,70 +43,62 @@ export default function HomeScreen() {
 
   // Fetch all articles from the database
   useEffect(() => {
-    const getAllArticles = async () => {
-      try {
-        const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
-        const userRef = doc(db, "users", UID);
-        const docSnap = await getDoc(userRef);
+    const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
+    const userRef = doc(db, "users", UID);
 
-        // If the document exists, get the articles array
-        if (docSnap.exists()) {
-          let allArticles = docSnap.data()?.articles ?? [];
-          console.log("Articles:", allArticles);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        let allArticles = docSnap.data()?.articles ?? [];
+        console.log("Real-time Articles:", allArticles);
 
-          // parse all articles
-          const parsedArticles = allArticles.map(
-            (article: any, index: number) => ({
-              title: article.title,
-              url: article.url,
-              key: index.toString(), // Fallback to using the index as the key
-            })
-          );
+        // parse all articles
+        const parsedArticles = allArticles.map(
+          (article: any, index: number) => ({
+            title: article.title,
+            url: article.url,
+            key: index.toString(), // Fallback to using the index as the key
+          })
+        );
 
-          setAllArticles(parsedArticles);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error contacting server :", error);
+        setAllArticles(parsedArticles);
+      } else {
+        console.log("No such document!");
       }
-    };
-    getAllArticles();
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
   }, []);
 
   // Fetch 3 random articles from the database to display in the carousel
   useEffect(() => {
-    const getSelectedArticles = async () => {
-      try {
-        const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
-        const userRef = doc(db, "users", UID);
-        const docSnap = await getDoc(userRef);
+    const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
+    const userRef = doc(db, "users", UID);
 
-        // If the document exists, get the articles array
-        if (docSnap.exists()) {
-          let articles = docSnap.data()?.articles ?? [];
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        let articles = docSnap.data()?.articles ?? [];
 
-          // Shuffle the array to get a random order
-          articles = articles.sort(() => Math.random() - 0.5);
+        // Shuffle the array to get a random order
+        articles = articles.sort(() => Math.random() - 0.5);
 
-          // Get the first 3 articles after shuffling
-          const selectedArticles = articles.slice(0, 3);
+        // Get the first 3 articles after shuffling
+        const selectedArticles = articles.slice(0, 3);
 
-          const parsedArticles = selectedArticles.map((article: any) => ({
-            title: article.title,
-            content: Array.isArray(article.content)
-              ? article.content.join(" ")
-              : article.content,
-          }));
-          setArticles(parsedArticles);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error contacting server:", error);
+        const parsedArticles = selectedArticles.map((article: any) => ({
+          title: article.title,
+          content: Array.isArray(article.content)
+            ? article.content.join(" ")
+            : article.content,
+        }));
+        setArticles(parsedArticles);
+      } else {
+        console.log("No such document!");
       }
-    };
-    getSelectedArticles();
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
   }, []); // Dependency array is empty, meaning this effect runs once on component mount
 
   const toggleModal = () => {
