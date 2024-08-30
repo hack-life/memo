@@ -18,6 +18,7 @@ import {
   getDoc,
   setDoc,
   doc,
+  onSnapshot,
   updateDoc,
   arrayUnion,
   collection,
@@ -35,25 +36,42 @@ function AddURL({ isModalVisible, toggleModal }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleImport = async () => {
+    const UID = "W1V7h70asObNSak0Pr1MJjjopgP2";
+
     if (!inputValue) {
       Alert.alert("Error", "Please enter a URL");
       return;
     }
 
+    // Check if the user has not already uploaded the same url to the database
+    try {
+      const userRef = doc(db, "users", UID);
+      const userDoc = await getDoc(userRef);
+      const userArticles = userDoc.data()?.articles;
+
+      const articleExists = userArticles.some(
+        (article: any) => article.url === inputValue
+      );
+      if (articleExists) {
+        Alert.alert("Error", "Article already exists in your library");
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking if article exists:", error);
+    }
+
     setIsLoading(true);
 
     try {
-      const UID = "W1V7h70asObNSak0Pr1MJjjopgP2"; 
-
       // Fetch the HTML content of the webpage
       const response = await fetch(inputValue);
       const body = await response.text();
 
-      // Load the HTML into cheerio  
+      // Load the HTML into cheerio
       const $ = cheerio.load(body);
 
       // Array to store articles
-      const articles = [];
+      const articles: any = [];
 
       // Select each article block (change the selector based on actual HTML structure)
       $("article").each((index, element) => {
