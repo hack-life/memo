@@ -15,12 +15,12 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 const deviceWidth = Dimensions.get("screen").width;
 const deviceHeight = Dimensions.get("screen").height;
 
-function Card({ title, summary1, summary2, summary3, length }) {
+function Card({ title, summary1, summary2, summary3, length, content }) {
   const navigation = useNavigation();
-
+  console.log("Card content:", content);
   return (
     <View style={styles.carouselOuter}>
-      <Pressable onPress={() => navigation.navigate("Read")}>
+      <Pressable onPress={() => navigation.navigate("Read", {title, content})}>
         <View style={styles.carouselInner}>
           <Image
             source={require("@/assets/images/MyImages/purpleNoise.jpg")}

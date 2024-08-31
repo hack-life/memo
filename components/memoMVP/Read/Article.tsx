@@ -1,12 +1,17 @@
 import { Text, View, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
+import { useEffect, useState } from "react";
 
-function Article(props) {
+function Article(article: any) {
+  
+
   return (
     <View style={styles.ArticleContainer}>
       <View>
         <Text style={styles.Title}>
-          But what is that new famous app called Memo?
+
         </Text>
       </View>
 

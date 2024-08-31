@@ -7,6 +7,7 @@ import {
 import ArticleBox from './ArticleBox';
 
 function ArticleList({ articles }) {
+  console.log("ArticleList articles:", articles); 
   return (
       <View style={styles.listContainer}>
           <FlatList
@@ -14,7 +15,7 @@ function ArticleList({ articles }) {
               scrollEnabled={false}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                  <ArticleBox title={item.title} url={item.url} />
+                  <ArticleBox title={item.title} url={item.url} content={item.content} />
               )}
           />
       </View>

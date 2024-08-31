@@ -56,6 +56,9 @@ export default function HomeScreen() {
           (article: any, index: number) => ({
             title: article.title,
             url: article.url,
+            content: Array.isArray(article.content)
+              ? article.content.join(" ")
+              : article.content,
             key: index.toString(), // Fallback to using the index as the key
           })
         );

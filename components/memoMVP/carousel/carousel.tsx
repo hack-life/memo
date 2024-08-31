@@ -17,6 +17,7 @@ interface Summary {
   summary2: string;
   summary3: string;
   length?: string;
+  content?: string;
 }
 
 const deviceWidth = Dimensions.get("screen").width;
@@ -24,7 +25,6 @@ const deviceHeight = Dimensions.get("screen").height;
 
 const Carousel = ({ articles }: { articles: Articles[] }) => {
   const [summaries, setSummaries] = useState<Summary[]>([]);
-
   useEffect(() => {
     const getSummaries = async () => {
       if (articles.length === 0) {
@@ -37,8 +37,8 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
             await llm(article.content);
             const fileUri =
               FileSystem.documentDirectory + "openairesponse.json";
-            const fileContent = await FileSystem.readAsStringAsync(fileUri);
-
+            const fileContent =  await FileSystem.readAsStringAsync(fileUri);
+            console.log("File content:", article.content);
             const summary = JSON.parse(fileContent);
             return {
               title: article.title,
@@ -46,6 +46,7 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
               summary2: summary.summary2,
               summary3: summary.summary3,
               length: summary.length,
+              content: article.content,
             };
           })
         );
@@ -67,6 +68,7 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
         summary2={card.summary2}
         summary3={card.summary3}
         length={card.length}
+        content={card.content}
       />
     );
   };

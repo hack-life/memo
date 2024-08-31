@@ -3,13 +3,13 @@ import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-function ArticleBox({ title, url }) {
+function ArticleBox({ title, url, content }) {
   const navigation = useNavigation();
 
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]} 
-      onPress={() => navigation.navigate("Read")}
+      onPress={() => navigation.navigate("Read", { title, content })}
     >
       <View style={styles.info}>
         <Text style={styles.title}>{title}</Text>
