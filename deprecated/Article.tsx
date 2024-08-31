@@ -4,9 +4,9 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { useEffect, useState } from "react";
 
+// Deprecated (keeping it for the memes)
 function Article(article: any) {
   
-
   return (
     <View style={styles.ArticleContainer}>
       <View>

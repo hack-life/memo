@@ -1,19 +1,19 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Colors } from '@/constants/Colors';
-import { useNavigation } from 'expo-router';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Colors } from "@/constants/Colors";
+import { useNavigation } from "expo-router";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 function ArticleBox({ title, url, content }) {
   const navigation = useNavigation();
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.item, pressed && styles.pressed]} 
+      style={({ pressed }) => [styles.item, pressed && styles.pressed]}
       onPress={() => navigation.navigate("Read", { title, content })}
     >
       <View style={styles.info}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.source}>{url}</Text>        
+        <Text style={styles.source}>{url}</Text>
       </View>
 
       <View style={styles.icon}>
@@ -27,12 +27,11 @@ export default ArticleBox;
 
 const styles = StyleSheet.create({
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderRadius: 30,
     marginVertical: 7,
     backgroundColor: Colors.grey1,
-  
   },
   pressed: {
     opacity: 0.7,

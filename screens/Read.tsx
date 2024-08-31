@@ -12,7 +12,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "@/constants/Colors";
 import ProgressBarIcon from "@/components/memoMVP/Read/ProgressBarIcon";
-import Article from "@/components/memoMVP/Read/Article";
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -42,7 +41,6 @@ export default function ReadScreen() {
   const [progress, setProgress] = useState(0);
   const [articlesRead, setArticlesRead] = useState(0);
 
-  const navigation = useNavigation();
   const route = useRoute();
   const { title, content } = route.params || {};
 
@@ -131,6 +129,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: Colors.white1,
     padding: 20,
+    textAlign: "justify",
   },
   ArticleContainer: {
     flex: 1,
