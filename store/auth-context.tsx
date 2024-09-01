@@ -1,32 +1,52 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
+import { onAuthStateChanged, signOut, deleteUser } from 'firebase/auth';
+import { auth } from "../firebaseConfig"; // Import the auth instance directly
 
 export const AuthContext = createContext({
-  token: '',
+  user: null,
+  token: null,
   isAuthenticated: false,
-  authenticate: (token) => {},
   logout: () => {},
+  deleteAccount: () => {},
+  // Remove setUser and setToken since they are not used directly in the context
 });
 
 function AuthContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState();
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
-  function authenticate(token) {
-    setAuthToken(token);
-    AsyncStorage.setItem('token', token);
-  }
+  useEffect(() => {
+    // Subscribe to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const idToken = await currentUser.getIdToken();
+        setUser(currentUser);
+        setToken(idToken);
+      } else {
+        setUser(null);
+        setToken(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   function logout() {
-    setAuthToken(null);
-    AsyncStorage.removeItem('token');
+    signOut(auth); // Use the imported auth instance
+  }
+
+  async function deleteAccount() {
+    if (user) {
+      await deleteUser(user);
+    }
   }
 
   const value = {
-    token: authToken,
-    isAuthenticated: !!authToken,
-    authenticate: authenticate,
-    logout: logout,
+    user,
+    token,
+    isAuthenticated: !!user,
+    logout,
+    deleteAccount,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

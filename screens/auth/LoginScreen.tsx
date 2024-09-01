@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react';
-import { Alert, ImageBackground, StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Alert, ImageBackground, StyleSheet, View, Text, Dimensions, Button } from 'react-native';
 import { useFonts } from 'expo-font';
 
-import LoadingOverlay from '../components/memoMVP/UI/LoadingOverlay';
+import LoadingOverlay from '@/components/memoMVP/UI/LoadingOverlay';
 import { AuthContext } from '@/store/auth-context';
-import { login } from '@/util/auth';
+import { login, loginWithGoogle, getUserData } from '@/util/auth';
 import AuthContent from '@/components/memoMVP/Auth/AuthContent';
 import { Colors } from '@/constants/Colors';
 
@@ -28,13 +28,28 @@ function LoginScreen() {
   async function loginHandler({ email, password }) {
     setIsAuthenticating(true);
     try {
-      const token = await login(email, password);
-      authCtx.authenticate(token);
+      const user = await login(email, password);
+      // Firebase automatically triggers onAuthStateChanged and updates AuthContext.
+      const userData = await getUserData(user.uid);
+      // Handle any post-login logic or navigation here
     } catch (error) {
       Alert.alert(
         'Authentication failed!',
         'Could not log you in. Please check your credentials or try again later!'
       );
+      setIsAuthenticating(false);
+    }
+  }
+  
+
+  async function googleLoginHandler() {
+    setIsAuthenticating(true);
+    try {
+      const user = await loginWithGoogle();
+      const userData = await getUserData(user.uid);
+      // Use userData as needed
+    } catch (error) {
+      Alert.alert('Google Login failed', 'Please try again later.');
       setIsAuthenticating(false);
     }
   }
@@ -53,8 +68,9 @@ function LoginScreen() {
           <Text style={styles.hey}>Hi!</Text>
           <Text style={styles.welcome}>Welcome to Memo</Text>
         </View>
-        <View style={[styles.authContent, { height: authContentHeight }]}>
+        <View style={{height: authContentHeight}}>
           <AuthContent isLogin onAuthenticate={loginHandler} />
+          <Button title="Login with Google" onPress={googleLoginHandler} />
         </View>
       </View>
     </ImageBackground>
@@ -70,14 +86,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    justifyContent: 'center', // Pushes text to the top and AuthContent to the bottom
+    justifyContent: 'center',
     paddingVertical: 20,
   },
-
   textBox: {
     alignItems: 'center',
-    paddingTop: deviceHeight * 0.2, // Adjust as needed
-   
+    paddingTop: deviceHeight * 0.2,
   },
   hey: {
     fontSize: 50,
@@ -89,5 +103,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Serif',
     color: Colors.white1,
   },
-
 });

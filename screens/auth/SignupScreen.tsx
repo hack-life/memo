@@ -8,17 +8,13 @@ import {
   Dimensions,
 } from "react-native";
 import { useFonts } from "expo-font";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import AuthContent from "@/components/memoMVP/Auth/AuthContent";
 import LoadingOverlay from "@/components/memoMVP/UI/LoadingOverlay";
 import { AuthContext } from "@/store/auth-context";
-import { createUser } from "@/util/auth";
+import { auth } from "@/firebaseConfig";  // Import the Firebase auth instance
 import { Colors } from "@/constants/Colors";
-import {
-  getUserArticles,
-  getUserById,
-  getUserFriends,
-} from "@/util/userHelper";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 
@@ -40,8 +36,13 @@ function SignupScreen() {
   async function signupHandler({ email, password }) {
     setIsAuthenticating(true);
     try {
-      const { token, UID } = await createUser(email, password);
-      authCtx.authenticate(token);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+
+      // You might also want to fetch additional user data from Firestore if needed
+      // const userData = await getUserById(user.uid);
+
     } catch (error) {
       Alert.alert(
         "Authentication failed",
@@ -94,12 +95,8 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontFamily: "Serif",
     color: Colors.white1,
-
   },
   authContent: {
     // Add any additional styling you need for the AuthContent container
   },
 });
-
-
-

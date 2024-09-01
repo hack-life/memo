@@ -1,65 +1,70 @@
-import axios from "axios";
 import {
   getAuth,
-  onAuthStateChanged,
   createUserWithEmailAndPassword,
-} from "@firebase/auth";
-import {
-  addDoc,
-  setDoc,
-  doc,
-  collection,
-  getCountFromServer,
-} from "firebase/firestore";
-import { db } from "../firebaseConfig";
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig";
 
-const API_KEY = "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk"; /// Memo project
 
-async function authenticate(mode, email, password) {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`;
 
-  const response = await axios.post(url, {
-    email: email,
-    password: password,
-    returnSecureToken: true,
-  });
-
-  const token = response.data.idToken;
-  return token;
-}
-
-export async function createUser(email, password) {
+export async function createUser(email: string, password: string) {
   try {
-    const token = await authenticate("signUp", email, password);
-    const userData = await getUserData(token);
-    const UID = userData.localId;
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
     const userDoc = createUserDocument(email);
-    await addUserToFirestore(UID, userDoc);
+    await addUserToFirestore(user.uid, userDoc);
 
-    return { token, UID };
+    return user;
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
   }
 }
 
-export async function getUserData(token) {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
-  const response = await axios.post(url, { idToken: token });
-
-  if (response.data.error) {
-    throw new Error(response.data.error.message);
+export async function login(email: string, password: string) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error;
   }
-
-  if (!response.data.users || response.data.users.length === 0) {
-    throw new Error("Failed to retrieve user data");
-  }
-
-  return response.data.users[0];
 }
 
-function createUserDocument(email) {
+export async function loginWithGoogle() {
+  try {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    return userCredential.user;
+  } catch (error) {
+    console.error("Error logging in with Google:", error);
+    throw error;
+  }
+}
+
+export async function getUserData(token: string) {
+  // const auth = getAuth(); already imported
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  const userSnapshot = await getDoc(doc(db, "users", user.uid));
+  if (userSnapshot.exists()) {
+    return userSnapshot.data();
+  } else {
+    throw new Error("No user data found in Firestore");
+  }
+}
+
+function createUserDocument(email: string) {
   return {
     username: email,
     date_joined: new Date().toISOString().split("T")[0],
@@ -70,12 +75,12 @@ function createUserDocument(email) {
   };
 }
 
-async function addUserToFirestore(UID, userDoc) {
+async function addUserToFirestore(UID: string, userDoc: any) {
   const userRef = doc(db, "users", UID);
   await setDoc(userRef, userDoc);
   console.log("New user added with UID:", UID);
 }
 
-export function login(email, password) {
-  return authenticate("signInWithPassword", email, password);
+export async function logout() {
+  await signOut(auth);
 }

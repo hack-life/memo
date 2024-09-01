@@ -1,132 +1,89 @@
-import React from 'react';
-
-
+import React, { useContext, useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import AppLoading from 'expo-app-loading';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
-
-import SignupScreen from '@/screens/SignupScreen';
-import LoginScreen from '@/screens/LoginScreen';
+import SignupScreen from '@/screens/auth/SignupScreen';
+import LoginScreen from '@/screens/auth/LoginScreen';
 import HomeScreen from '@/screens/index';
 import ReadScreen from '@/screens/Read';
 import MyStreaks from '@/screens/StreaksScreens/MyStreaks';
 import Leaderboard from '@/screens/StreaksScreens/Leaderboard';
 import ProfileScreen from '@/screens/ProfileScreen';
 
-import { useContext, useEffect, useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import AppLoading from 'expo-app-loading';
-
-
 import AuthContextProvider, { AuthContext } from '@/store/auth-context';
-
 import { Colors } from '@/constants/Colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const BottomTabs = createBottomTabNavigator();
 
-function StreaksScreens(){
+function StreaksScreens() {
   return (
     <BottomTabs.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarActiveTintColor: Colors.purple1,
-    
-    }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors.purple1,
+      }}
     >
       <BottomTabs.Screen
         name="MyStreaks"
         component={MyStreaks}
-        options={{
-          tabBarLabel: 'Personal',
-          }}
+        options={{ tabBarLabel: 'Personal' }}
       />
       <BottomTabs.Screen
         name="Leaderboard"
         component={Leaderboard}
-        options={{
-          tabBarLabel: 'Friends',
-        }}
+        options={{ tabBarLabel: 'Friends' }}
       />
     </BottomTabs.Navigator>
   );
 }
+
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false,}}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
-
     </Stack.Navigator>
   );
 }
 
-
 function AuthenticatedStack() {
-  const authCtx = useContext(AuthContext);
-
   return (
-    <Stack.Navigator
-    screenOptions={{headerShown: false,}}>
-
-
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}/>
-
-
-      <Stack.Screen
-        name="Read"
-        component={ReadScreen}/>
-
-      <Stack.Screen 
-        name="StreaksScreens"
-        component= {StreaksScreens} />
-
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen} />
-
-      </Stack.Navigator>
-
-        );
-      }
-
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Read" component={ReadScreen} />
+      <Stack.Screen name="StreaksScreens" component={StreaksScreens} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+    </Stack.Navigator>
+  );
+}
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
 
-  return (
-    <>
-      {!authCtx.isAuthenticated ? <AuthStack /> : <AuthenticatedStack />}
-    </>
-  );
+  return authCtx.isAuthenticated ? <AuthenticatedStack /> : <AuthStack />;
 }
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
-
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem('token');
-
-      if (storedToken) {
-        authCtx.authenticate(storedToken);
+    const unsubscribe = authCtx.onAuthStateChanged((user) => {
+      if (user) {
+        authCtx.setUser(user);
+        user.getIdToken().then((token) => {
+          authCtx.setToken(token);
+        });
       }
-
       setIsTryingLogin(false);
-    }
+    });
 
-    fetchToken();
+    return () => unsubscribe();
   }, []);
 
   if (isTryingLogin) {
@@ -137,7 +94,6 @@ function Root() {
 }
 
 export default function ScreenLayout() {
-  
   return (
     <>
       <StatusBar style="light" />
@@ -147,5 +103,3 @@ export default function ScreenLayout() {
     </>
   );
 }
-
-
