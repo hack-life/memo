@@ -96,7 +96,7 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
 const styles = StyleSheet.create({
   loadingText: {
     fontSize: 20,
-    color: Colors.error1,
+    color: Colors.white1,
   },
   container: {
     flex: 1,

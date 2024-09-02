@@ -53,7 +53,7 @@ function Card({ title, summary1, summary2, summary3, length, content }: CardProp
             style={styles.image}
           />
           <View>
-            <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            <Text style={styles.title} numberOfLines={3} ellipsizeMode="tail">
               {title}
             </Text>
           </View>
