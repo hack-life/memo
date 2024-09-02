@@ -38,7 +38,6 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
             const fileUri =
               FileSystem.documentDirectory + "openairesponse.json";
             const fileContent =  await FileSystem.readAsStringAsync(fileUri);
-            console.log("File content:", article.content);
             const summary = JSON.parse(fileContent);
             return {
               title: article.title,
@@ -50,7 +49,6 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
             };
           })
         );
-        // console.log("Summaries:", summaries);
         setSummaries(summaries);
       } catch (error) {
         console.error("Error generating summaries:", error);
@@ -67,8 +65,8 @@ const Carousel = ({ articles }: { articles: Articles[] }) => {
         summary1={card.summary1}
         summary2={card.summary2}
         summary3={card.summary3}
-        length={card.length}
-        content={card.content}
+        length={card.length ?? ''}
+        content={card.content ?? ''}
       />
     );
   };

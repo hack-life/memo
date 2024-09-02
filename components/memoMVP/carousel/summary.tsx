@@ -5,7 +5,11 @@ import { Colors } from "@/constants/Colors";
 import { useFonts } from "expo-font";
 import { RFPercentage } from "react-native-responsive-fontsize";
 
-function Summary({ text, numberOfLines, ellipsizeMode }) {
+function Summary({ text, numberOfLines, ellipsizeMode }: {
+  text: string;
+  numberOfLines?: number;
+  ellipsizeMode?: 'head' | 'middle' | 'tail' | 'clip';
+}) {
   const [fontsLoaded] = useFonts({
     "Serif-Italic": require("@/assets/fonts/DMSerifText-Italic.ttf"),
     Serif: require("@/assets/fonts/DMSerifText-Regular.ttf"),
@@ -32,5 +36,6 @@ const styles = StyleSheet.create({
     fontSize: RFPercentage(2),
     color: Colors.white1,
     marginTop: 5,
+    fontFamily: "Serif",
   },
 });

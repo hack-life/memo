@@ -29,7 +29,12 @@ import { AuthContext } from "@/store/auth-context";
 import { useContext } from "react";
 import { getUserData } from "../../util/auth";
 
-function AddURL({ isModalVisible, toggleModal }) {
+interface AddURLProps {
+  isModalVisible: boolean;
+  toggleModal: () => void;
+}
+
+function AddURL({ isModalVisible, toggleModal }: AddURLProps) {
   const authCtx = useContext(AuthContext);
 
   const [inputValue, setInputValue] = useState("");
@@ -81,7 +86,6 @@ function AddURL({ isModalVisible, toggleModal }) {
         articles.push({ title, content });
       });
 
-      console.log("Articles:", articles);
 
       // save to firestore
       const userRef = doc(db, "users", UID);
@@ -93,7 +97,6 @@ function AddURL({ isModalVisible, toggleModal }) {
         date_added: new Date().toISOString(),
       };
 
-      console.log("articleData:", articleData);
 
       // add article to user's article field in firestore
       await updateDoc(userRef, {

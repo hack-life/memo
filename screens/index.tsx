@@ -49,7 +49,6 @@ export default function HomeScreen() {
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
         let allArticles = docSnap.data()?.articles ?? [];
-        console.log("Real-time Articles:", allArticles);
 
         // parse all articles
         const parsedArticles = allArticles.map(

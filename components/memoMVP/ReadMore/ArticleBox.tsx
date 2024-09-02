@@ -1,11 +1,26 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/Colors";
-import { useNavigation } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
 
-function ArticleBox({ title, url, content }) {
-  const navigation = useNavigation();
+type RootStackParamList = {
+  Read: { title: string; content: string };
+};
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Read'>;
+
+function ArticleBox({ title, url, content }: { title: string; url: string; content: string }) {
+  const [fontsLoaded] = useFonts({
+    "Serif-Italic": require("@/assets/fonts/DMSerifText-Italic.ttf"),
+    Serif: require("@/assets/fonts/DMSerifText-Regular.ttf"),
+  });
+  if (!fontsLoaded) {
+    return null; // or some loading indicator
+  }
+
+  const navigation = useNavigation<NavigationProp>();
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
@@ -46,6 +61,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.white1,
     fontWeight: "bold",
+    fontFamily: "Serif",
+
   },
 
   source: {
