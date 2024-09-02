@@ -10,7 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "@/constants/Colors";
@@ -83,18 +83,19 @@ Ensure that the correct answer is randomly chosen among A, B, C, or D.`;
             content: prompt,
           },
         ],
-        temperature: 0.5,
+        temperature: 0.7,
       }),
     });
 
     const jsonResponse = await response.json();
+    console.log("Response : ", jsonResponse.choices[0]);
     const mcqContent = jsonResponse.choices[0].message.content.trim();
-
+    
     // Parse the question, options, and correct answer
-    const lines = mcqContent.split("\n");
-    const question = lines[0].replace("QUESTION: ", "");
-    const options = lines.slice(1, 5).map((line) => line.slice(3));
-    const correctAnswerLetter = lines[5].replace("CORRECT: ", "");
+    const lines = mcqContent.split('\n');
+    const question = lines[0].replace('QUESTION: ', '');
+    const options = lines.slice(1, 5).map(line => line.slice(3));
+    const correctAnswerLetter = lines[5].replace('CORRECT: ', '');
     const correctAnswerIndex = correctAnswerLetter.charCodeAt(0) - 65; // Convert A, B, C, D to 0, 1, 2, 3
 
     return { question, options, correctAnswerIndex };
@@ -123,19 +124,23 @@ export default function ReadScreen() {
   const [progress, setProgress] = useState(0);
   const [articlesRead, setArticlesRead] = useState(0);
   const [mcq, setMcq] = useState<MCQ | null>(null);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [randomizedOptions, setRandomizedOptions] = useState<string[]>([]);
   const correctAnswerRef = useRef<string | null>(null);
 
-  const handleAnswerSelect = (option: string) => {
-    setSelectedAnswer(option);
+  const shuffleArray = useCallback((array: string[]) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, []);
 
+  const handleAnswerSelect = (option: string) => {
     if (option === correctAnswerRef.current) {
       Alert.alert("Correct!", "Great job! You've selected the right answer.");
     } else {
-      Alert.alert(
-        "Incorrect",
-        `The correct answer is: ${correctAnswerRef.current}`
-      );
+      Alert.alert("Incorrect", `The correct answer is: ${correctAnswerRef.current}`);
     }
   };
 
@@ -185,12 +190,13 @@ export default function ReadScreen() {
           setMcq(generatedMCQ);
           correctAnswerRef.current =
             generatedMCQ.options[generatedMCQ.correctAnswerIndex];
+          setRandomizedOptions(shuffleArray(generatedMCQ.options));
         }
       }
     };
 
     generateMCQ();
-  }, [content]);
+  }, [content, shuffleArray]);
 
   const deviceHeight = Dimensions.get("screen").height;
   const deviceWidth = Dimensions.get("screen").width;
@@ -219,13 +225,10 @@ export default function ReadScreen() {
         {mcq && (
           <View style={styles.mcqContainer}>
             <Text style={styles.mcqQuestion}>{mcq.question}</Text>
-            {mcq.options.map((option, index) => (
+            {randomizedOptions.map((option, index) => (
               <TouchableOpacity
                 key={index}
-                style={[
-                  styles.mcqOption,
-                  selectedAnswer === option && styles.selectedOption,
-                ]}
+                style={styles.mcqOption}
                 onPress={() => handleAnswerSelect(option)}
               >
                 <Text style={styles.mcqOptionText}>{option}</Text>
