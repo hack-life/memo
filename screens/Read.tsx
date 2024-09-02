@@ -10,7 +10,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Colors } from "@/constants/Colors";
@@ -49,7 +49,19 @@ const updateProgressData = async (date: string, articlesRead: number) => {
 
 const fetchMCQ = async (content: string) => {
   const apiKey = "sk-proj-9SxNUvMwOzxA0FSAeDAhT3BlbkFJ03bWeKeUqcSj4IuouFvn";
-  const prompt = `Generate a multiple-choice question based on the following content:\n\n${content}\n\nThe question should have 4 options with one correct answer.`;
+  const prompt = `Generate a multiple-choice question based on the following content:
+
+${content}
+
+Please format your response exactly as follows:
+QUESTION: [The question text here]
+A: [Option A text]
+B: [Option B text]
+C: [Option C text]
+D: [Option D text]
+CORRECT: [The letter of the correct answer (A, B, C, or D)]
+
+Ensure that the correct answer is randomly chosen among A, B, C, or D.`;
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -63,24 +75,29 @@ const fetchMCQ = async (content: string) => {
         messages: [
           {
             role: "system",
-            content: "You are a helpful assistant that generates MCQs.",
+            content:
+              "You are a helpful assistant that generates MCQs in a specific format.",
           },
           {
             role: "user",
             content: prompt,
           },
         ],
-        temperature: 0.7,
+        temperature: 0.5,
       }),
     });
 
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
     const mcqContent = jsonResponse.choices[0].message.content.trim();
-    
-    // Assuming the response is a string with the question and options separated by newlines
-    const [question, ...options] = mcqContent.split('\n').filter((line: string) => line.trim() !== '');
-    return { question, options };
+
+    // Parse the question, options, and correct answer
+    const lines = mcqContent.split("\n");
+    const question = lines[0].replace("QUESTION: ", "");
+    const options = lines.slice(1, 5).map((line) => line.slice(3));
+    const correctAnswerLetter = lines[5].replace("CORRECT: ", "");
+    const correctAnswerIndex = correctAnswerLetter.charCodeAt(0) - 65; // Convert A, B, C, D to 0, 1, 2, 3
+
+    return { question, options, correctAnswerIndex };
   } catch (error) {
     console.error("Error fetching MCQ:", error);
     return null;
@@ -90,6 +107,7 @@ const fetchMCQ = async (content: string) => {
 interface MCQ {
   question: string;
   options: string[];
+  correctAnswerIndex: number;
 }
 
 export default function ReadScreen() {
@@ -106,18 +124,27 @@ export default function ReadScreen() {
   const [articlesRead, setArticlesRead] = useState(0);
   const [mcq, setMcq] = useState<MCQ | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [correctAnswer, setCorrectAnswer] = useState<string | null>(null);
+  const correctAnswerRef = useRef<string | null>(null);
 
   const handleAnswerSelect = (option: string) => {
     setSelectedAnswer(option);
-    // Assuming the correct answer is the first option for simplicity
-    setCorrectAnswer(mcq?.options[0] || null);
+
+    if (option === correctAnswerRef.current) {
+      Alert.alert("Correct!", "Great job! You've selected the right answer.");
+    } else {
+      Alert.alert(
+        "Incorrect",
+        `The correct answer is: ${correctAnswerRef.current}`
+      );
+    }
   };
 
-  const route = useRoute<RouteProp<{ params: ReadScreenParams }, 'params'>>();
+  const route = useRoute<RouteProp<{ params: ReadScreenParams }, "params">>();
   const { title, content } = route.params || {};
 
-  const UpdateProgressBar = (value: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const UpdateProgressBar = (
+    value: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
     const contentOffsetY = value.nativeEvent.contentOffset.y;
     const totalScrollHeight = scrollViewContentHeight - scrollViewHeight;
     if (totalScrollHeight > 0) {
@@ -154,7 +181,11 @@ export default function ReadScreen() {
     const generateMCQ = async () => {
       if (content) {
         const generatedMCQ = await fetchMCQ(content);
-        setMcq(generatedMCQ);
+        if (generatedMCQ) {
+          setMcq(generatedMCQ);
+          correctAnswerRef.current =
+            generatedMCQ.options[generatedMCQ.correctAnswerIndex];
+        }
       }
     };
 
@@ -200,9 +231,6 @@ export default function ReadScreen() {
                 <Text style={styles.mcqOptionText}>{option}</Text>
               </TouchableOpacity>
             ))}
-            <TouchableOpacity style={styles.answerButton}>
-              <Text style={styles.answerButtonText}>Answer</Text>
-            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
@@ -245,28 +273,31 @@ const styles = StyleSheet.create({
   },
   mcqQuestion: {
     fontSize: 18,
-    color: Colors.purple,
+    color: Colors.purple1,
     marginBottom: 20,
     textAlign: "center",
   },
   mcqOption: {
-    backgroundColor: Colors.gray1,
+    backgroundColor: Colors.grey1,
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 25, // Increased border radius for rounded buttons
     marginBottom: 10,
     alignItems: "center",
+    borderWidth: 1, // Add border
+    borderColor: Colors.purple1, // Border color
   },
   mcqOptionText: {
     color: Colors.white1,
     textAlign: "center",
+    fontSize: 16, // Increased font size for better readability
   },
   selectedOption: {
-    backgroundColor: Colors.purple,
+    backgroundColor: Colors.purple1,
   },
   answerButton: {
     backgroundColor: Colors.white1,
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 25,
     marginTop: 20,
     alignItems: "center",
   },
