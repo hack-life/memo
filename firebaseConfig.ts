@@ -1,4 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore, initializeFirestore } from "firebase/firestore";
 import { setLogLevel } from "firebase/firestore";
 
@@ -27,4 +28,7 @@ const db = initializeFirestore(
   "test1"
 );
 
-export { app, db };
+// Initialize Firebase Auth
+const auth = getAuth(app);
+
+export { app, db, auth };

@@ -11,7 +11,7 @@ import {
   collection,
   getCountFromServer,
 } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfig";
 
 const API_KEY = "AIzaSyBCzKG9xi8LmhXVkScj4P2-SDUzF7dxTbk"; /// Memo project
 
@@ -28,8 +28,15 @@ async function authenticate(mode, email, password) {
   return token;
 }
 
-export async function createUser(email, password) {
+export async function createUser(email: string, password) {
   try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User created:", userCredential);
+    // const user = userCredential.user;
+
+
+
+
     const token = await authenticate("signUp", email, password);
     const userData = await getUserData(token);
     const UID = userData.localId;
